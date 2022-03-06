@@ -4,43 +4,53 @@ import com.arshaa.entity.Guest;
 
 public class GuestResponse {
 
-	private Guest guest;
-	private long amount;
-	private String paymentId;
+    private int amountPaid;
+    private String message;
+    private int paymentId;
+    private int guestId ;
 
-	public GuestResponse(Guest guest, long amount, String paymentId) {
-		super();
-		this.guest = guest;
-		this.amount = amount;
-		this.paymentId = paymentId;
-	}
 
-	public GuestResponse() {
-		super();
-	}
+    public GuestResponse(int amountPaid, String message, int paymentId, int guestId) {
+        this.amountPaid = amountPaid;
+        this.message = message;
+        this.paymentId = paymentId;
+        this.guestId = guestId ;
+    }
 
-	public Guest getGuest() {
-		return guest;
-	}
+    public GuestResponse() {
+    }
 
-	public void setGuest(Guest guest) {
-		this.guest = guest;
-	}
+    public int getAmountPaid() {
+        return amountPaid;
+    }
 
-	public long getAmount() {
-		return amount;
-	}
+    public void setAmountPaid(int amountPaid) {
+        this.amountPaid = amountPaid;
+    }
 
-	public void setAmount(long amount) {
-		this.amount = amount;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public String getPaymentId() {
-		return paymentId;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public void setPaymentId(String paymentId) {
-		this.paymentId = paymentId;
-	}
+    public int getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public int getGuestId(){
+        return guestId ;
+
+
+    }
+    public void setGuessId(int guestId) {
+        this.guestId = guestId;
+    }
 
 }

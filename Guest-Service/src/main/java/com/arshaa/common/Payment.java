@@ -6,85 +6,91 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Payment {
 
-	private int guestId;
-	private long amount;
-	private String paymentTowards;
-	private String paymentMethod;
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date paymentDate;
-	private String transactionId;
-	private String paymentId;
+    private int guestId;
+    private int amountPaid;
+    private int roomRent;
+    private String paymentMethod;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date transactionDate;
+    private String transactionId;
+    private int paymentId;
+    private  int dueAmount;
 
-	public Payment(int guestId, long amount, String paymentTowards, String paymentMethod, Date paymentDate,
-			String transactionId, String paymentId) {
-		super();
-		this.guestId = guestId;
-		this.amount = amount;
-		this.paymentTowards = paymentTowards;
-		this.paymentMethod = paymentMethod;
-		this.paymentDate = paymentDate;
-		this.transactionId = transactionId;
-		this.paymentId = paymentId;
-	}
+    public Payment(int guestId, int amountPaid, int roomRent, String paymentMethod, Date transactionDate, String transactionId, int paymentId, int dueAmount) {
+        this.guestId = guestId;
+        this.amountPaid = amountPaid;
+        this.roomRent = roomRent;
+        this.paymentMethod = paymentMethod;
+        this.transactionDate = transactionDate;
+        this.transactionId = transactionId;
+        this.paymentId = paymentId;
+        this.dueAmount = dueAmount;
+    }
 
-	public int getGuestId() {
-		return guestId;
-	}
+    public Payment() {
+    }
 
-	public void setGuestId(int guestId) {
-		this.guestId = guestId;
-	}
+    public int getGuestId() {
+        return guestId;
+    }
 
-	public long getAmount() {
-		return amount;
-	}
+    public void setGuestId(int guestId) {
+        this.guestId = guestId;
+    }
 
-	public void setAmount(long amount) {
-		this.amount = amount;
-	}
+    public int getAmountPaid() {
+        return amountPaid;
+    }
 
-	public String getPaymentTowards() {
-		return paymentTowards;
-	}
+    public void setAmountPaid(int amountPaid) {
+        this.amountPaid = amountPaid;
+    }
 
-	public void setPaymentTowards(String paymentTowards) {
-		this.paymentTowards = paymentTowards;
-	}
+    public int getRoomRent() {
+        return roomRent;
+    }
 
-	public String getPaymentMethod() {
-		return paymentMethod;
-	}
+    public void setRoomRent(int roomRent) {
+        this.roomRent = roomRent;
+    }
 
-	public void setPaymentMethod(String paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
 
-	public Date getPaymentDate() {
-		return paymentDate;
-	}
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 
-	public void setPaymentDate(Date paymentDate) {
-		this.paymentDate = paymentDate;
-	}
+    public Date getTransactionDate() {
+        return transactionDate;
+    }
 
-	public String getTransactionId() {
-		return transactionId;
-	}
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
+    }
 
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
-	}
+    public String getTransactionId() {
+        return transactionId;
+    }
 
-	public String getPaymentId() {
-		return paymentId;
-	}
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
 
-	public void setPaymentId(String paymentId) {
-		this.paymentId = paymentId;
-	}
+    public int getPaymentId() {
+        return paymentId;
+    }
 
-	public Payment() {
-		super();
-	}
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
+    }
 
+    public int getDueAmount() {
+        return dueAmount;
+    }
+
+    public void setDueAmount(int dueAmount) {
+        this.dueAmount = dueAmount;
+    }
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.arshaa.paymentservice.entity.Payment;
 import com.arshaa.paymentservice.repository.PaymentRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service
 public class PaymentImplement implements PaymentInterface {
@@ -28,7 +27,7 @@ public class PaymentImplement implements PaymentInterface {
 
     @Override
     public Payment addPayment(Payment payment) {
-        payment.setPaymentId(UUID.randomUUID().toString());
+       // payment.setPaymentId(UUID.randomUUID().toString());
         return paymentRepository.save(payment);
     }
 
@@ -42,10 +41,11 @@ public class PaymentImplement implements PaymentInterface {
     public Payment updateGuest(Payment payment) {
 
         Payment getPayment = paymentRepository.findByGuestId(payment.getGuestId());
-        getPayment.setPaymentDate(payment.getPaymentDate());
+        getPayment.setRoomRent(payment.getRoomRent());
+        getPayment.setTransactionDate(payment.getTransactionDate());
         getPayment.setPaymentMethod(payment.getPaymentMethod());
-        getPayment.setPaymentTowards(payment.getPaymentTowards());
         getPayment.setTransactionId(payment.getTransactionId());
+        getPayment.setDueAmount(payment.getDueAmount());
         return paymentRepository.save(getPayment);
     }
 

@@ -1,5 +1,6 @@
 package com.arshaa.paymentservice.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 
@@ -12,18 +13,34 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "payments")
-public class Payment {
+public class Payment implements Serializable {
 
     @Id
     @GeneratedValue
+    private int paymentId;
     private int guestId;
-    private long amount;
-    private String paymentTowards;
+    private int amountPaid;
+    private int roomRent;
     private String paymentMethod;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date paymentDate;
+    private Date transactionDate;
     private String transactionId;
-    private String paymentId;
+    private int dueAmount;
+
+
+    public Payment(int guestId, int amountPaid, int roomRent, String paymentMethod, Date transactionDate, String transactionId, int paymentId, int dueAmount) {
+        this.guestId = guestId;
+        this.amountPaid = amountPaid;
+        this.roomRent = roomRent;
+        this.paymentMethod = paymentMethod;
+        this.transactionDate = transactionDate;
+        this.transactionId = transactionId;
+        this.paymentId = paymentId;
+        this.dueAmount = dueAmount;
+    }
+
+    public Payment() {
+    }
 
     public int getGuestId() {
         return guestId;
@@ -33,20 +50,20 @@ public class Payment {
         this.guestId = guestId;
     }
 
-    public long getAmount() {
-        return amount;
+    public int getAmountPaid() {
+        return amountPaid;
     }
 
-    public void setAmount(long amount) {
-        this.amount = amount;
+    public void setAmountPaid(int amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
-    public String getPaymentTowards() {
-        return paymentTowards;
+    public int getRoomRent() {
+        return roomRent;
     }
 
-    public void setPaymentTowards(String paymentTowards) {
-        this.paymentTowards = paymentTowards;
+    public void setRoomRent(int roomRent) {
+        this.roomRent = roomRent;
     }
 
     public String getPaymentMethod() {
@@ -57,12 +74,12 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
 
-    public Date getPaymentDate() {
-        return paymentDate;
+    public Date getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
-        this.paymentDate = paymentDate;
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     public String getTransactionId() {
@@ -73,28 +90,19 @@ public class Payment {
         this.transactionId = transactionId;
     }
 
-    public String getPaymentId() {
+    public int getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(String paymentId) {
+    public void setPaymentId(int paymentId) {
         this.paymentId = paymentId;
     }
 
-    public Payment(int guestId, long amount, String paymentTowards, String paymentMethod, Date paymentDate,
-                   String transactionId, String paymentId) {
-        super();
-        this.guestId = guestId;
-        this.amount = amount;
-        this.paymentTowards = paymentTowards;
-        this.paymentMethod = paymentMethod;
-        this.paymentDate = paymentDate;
-        this.transactionId = transactionId;
-        this.paymentId = paymentId;
+    public int getDueAmount() {
+        return dueAmount;
     }
 
-    public Payment() {
-        super();
+    public void setDueAmount(int dueAmount) {
+        this.dueAmount = dueAmount;
     }
-
 }
