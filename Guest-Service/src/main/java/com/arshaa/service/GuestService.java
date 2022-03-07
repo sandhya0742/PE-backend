@@ -49,7 +49,7 @@ public class GuestService implements GuestInterface {
         payment.setAmountPaid(guest.getAmountPaid());
         java.sql.Date tSqldate = new java.sql.Date(guest.getTransactionDate().getTime());
         payment.setTransactionDate(tSqldate);
-        Payment payResponse = template.postForObject("http://payment-service/api/v2/doPayment", payment, Payment.class);
+        Payment payResponse = template.postForObject("http://payment-service/payment-service/doPayment", payment, Payment.class);
 
         return new GuestResponse(payResponse.getAmountPaid(), message, payResponse.getPaymentId(), payResponse.getGuestId());
     }
