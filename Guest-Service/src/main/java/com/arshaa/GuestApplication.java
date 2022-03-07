@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
+@EnableEurekaClient
 public class GuestApplication extends SpringBootServletInitializer {
 
 	@Override
