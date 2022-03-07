@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/v1/")
+@RequestMapping("guest-service")
 public class GuestController {
 
     @Autowired(required = true)

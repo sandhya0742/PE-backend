@@ -18,7 +18,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/v2/")
+@RequestMapping("payment-service")
 public class PaymentController {
 
     @Autowired(required = true)
