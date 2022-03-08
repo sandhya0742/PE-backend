@@ -21,7 +21,7 @@ public class PaymentImplement implements PaymentInterface {
     }
 
     @Override
-    public Payment findByGuestId(int guestId) {
+    public Payment findPaymentByGuestId(int guestId) {
         return paymentRepository.findByGuestId(guestId);
     }
 

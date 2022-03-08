@@ -7,11 +7,19 @@ spring:
         - id: guest-service
           uri: lb://guest-service
           predicates:
-            - Path=/guest/**
+            - Path=/guest-service/**
         - id: payment-service
           uri: lb://payment-service
           predicates:
-              - Path=/payment/**
+              - Path=/payment-service/**
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
 
 eureka:
   client:
