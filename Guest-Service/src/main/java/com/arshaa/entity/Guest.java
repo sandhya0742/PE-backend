@@ -27,10 +27,10 @@ public class Guest implements Serializable {
     private String localGaurdianName;
     private String localGaurdianPhoneNumber;
     private String bloodGroup;
-    private String gender;
+    //private String gender;
     private String addressLine1;
     private String addressLine2;
-    private String pincode;
+    // private String pincode;
     private String city;
     private String state;
     private String country;
@@ -65,10 +65,10 @@ public class Guest implements Serializable {
         this.localGaurdianName = localGaurdianName;
         this.localGaurdianPhoneNumber = localGaurdianPhoneNumber;
         this.bloodGroup = bloodGroup;
-        this.gender = gender;
+        //this.gender = gender;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
-        this.pincode = pincode;
+        // this.pincode = pincode;
         this.city = city;
         this.state = state;
         this.country = country;
@@ -193,13 +193,13 @@ public class Guest implements Serializable {
         this.bloodGroup = bloodGroup;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+//    public String getGender() {
+//        return gender;
+//    }
+//
+//    public void setGender(String gender) {
+//        this.gender = gender;
+//    }
 
     public String getAddressLine1() {
         return addressLine1;
@@ -217,13 +217,13 @@ public class Guest implements Serializable {
         this.addressLine2 = addressLine2;
     }
 
-    public String getPincode() {
-        return pincode;
-    }
-
-    public void setPincode(String pincode) {
-        this.pincode = pincode;
-    }
+//    public String getPincode() {
+//        return pincode;
+//    }
+//
+//    public void setPincode(String pincode) {
+//        this.pincode = pincode;
+//    }
 
     public String getCity() {
         return city;
