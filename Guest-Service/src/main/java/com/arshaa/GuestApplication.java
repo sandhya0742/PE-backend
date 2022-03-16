@@ -14,18 +14,18 @@ import org.springframework.web.client.RestTemplate;
 @EnableEurekaClient
 public class GuestApplication extends SpringBootServletInitializer {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(GuestApplication.class);
-	}
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(GuestApplication.class);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(GuestApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GuestApplication.class, args);
+    }
 
-	@Bean
-	@LoadBalanced
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }

@@ -1,9 +1,6 @@
 package com.arshaa.service;
 
-import com.arshaa.common.GuestRequest;
-
 import com.arshaa.common.GuestResponse;
-import com.arshaa.common.Payment;
 import com.arshaa.entity.Guest;
 import com.arshaa.repository.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,42 +25,44 @@ public class GuestService implements GuestInterface {
     }
 
     @Override
-    public Guest getGuestById(int guestId) {
-        return repository.findById(guestId).get();
+    public Guest getGuestById(String guestId) {
+        return repository.findById(guestId);
     }
 
     @Override
-    public GuestResponse addGuest(GuestRequest request) {
-        String message = "";
-        Guest guest = request.getGuest();
-        Payment payment = request.getPayment();
-//        java.sql.Date tSqlDate = new java.sql.Date(guest.getTransactionDate().getTime());
-//        guest.setTransactionDate(tSqlDate);
+    public Guest addGuest(Guest guest) {
+        //String message = "";
+        //Guest guest = request.getGuest();
+        //Payment payment = request.getPayment();
+        java.sql.Date tSqlDate = new java.sql.Date(guest.getTransactionDate().getTime());
+        guest.setTransactionDate(tSqlDate);
         //System.out.println(guest);
-        if (repository.save(guest) != null) {
-            message += "Onboarded Successfully";
-        } else {
-            message += "Guest Data not Saved";
-        }
-        payment.setGuestId(repository.getById(guest.getId()).getId());
-        payment.setAmountPaid(guest.getAmountPaid());
-        java.sql.Date tSqldate = new java.sql.Date(guest.getTransactionDate().getTime());
-        payment.setTransactionDate(tSqldate);
-        Payment payResponse = template.postForObject("http://payment-service/payment-service/doPayment", payment, Payment.class);
+//        if (repository.save(guest) != null) {
+//            message += "Guest Onboarded Successfully";
+//        } else {
+//            message += "Guest Data not Saved";
+//        }
 
-        return new GuestResponse(payResponse.getAmountPaid(), message, payResponse.getPaymentId(), payResponse.getGuestId());
+        //payment.setGuestId(repository.findById(guest.getId()).getId());
+//        payment.setAmountPaid(guest.getAmountPaid());
+//        java.sql.Date tSqldate = new java.sql.Date(guest.getTransactionDate().getTime());
+//        payment.setTransactionDate(tSqldate);
+//        Payment payResponse = template.postForObject("http://payment-service/payment-service/doPayment", payment, Payment.class);
+
+        return repository.save(guest);
     }
 
     @Override
-    public Guest updateGuest(int guestId) {
-        Guest newGuest = repository.getById(guestId);
+    public void deleteGuest(String guestId) {
+        Guest deleteGuest = repository.findById(guestId);
+        repository.delete(deleteGuest);
+    }
+
+    public Guest updateGuest(String guestId) {
+        Guest newGuest = repository.findById(guestId);
         // newGuest.setFirstName();
         return null;
     }
 
-    @Override
-    public void deleteGuest(int guestId) {
-        Guest deleteGuest = repository.getById(guestId);
-        repository.delete(deleteGuest);
-    }
+
 }

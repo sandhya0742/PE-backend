@@ -7,10 +7,10 @@ public class GuestResponse {
     private int amountPaid;
     private String message;
     private int paymentId;
-    private int guestId ;
+    private String guestId ;
 
 
-    public GuestResponse(int amountPaid, String message, int paymentId, int guestId) {
+    public GuestResponse(int amountPaid, String message, int paymentId, String guestId) {
         this.amountPaid = amountPaid;
         this.message = message;
         this.paymentId = paymentId;
@@ -44,12 +44,12 @@ public class GuestResponse {
         this.paymentId = paymentId;
     }
 
-    public int getGuestId(){
+    public String getGuestId(){
         return guestId ;
 
 
     }
-    public void setGuessId(int guestId) {
+    public void setGuessId(String guestId) {
         this.guestId = guestId;
     }
 

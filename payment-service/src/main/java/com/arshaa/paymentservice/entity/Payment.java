@@ -2,12 +2,11 @@ package com.arshaa.paymentservice.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -16,93 +15,72 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Payment implements Serializable {
 
     @Id
-    @GeneratedValue
-    private int paymentId;
-    private int guestId;
-    private int amountPaid;
-    private int roomRent;
-    private String paymentMethod;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date transactionDate;
-    private String transactionId;
-    private int dueAmount;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int pId;
+    private double dueAmount;
+    private double securityDeposit;
+    private double defaultRent;
+    private String guestId;
+    @Embedded
+    private List<PaymentHistory> histories = new ArrayList<>();
 
-
-    public Payment(int guestId, int amountPaid, int roomRent, String paymentMethod, Date transactionDate, String transactionId, int paymentId, int dueAmount) {
-        this.guestId = guestId;
-        this.amountPaid = amountPaid;
-        this.roomRent = roomRent;
-        this.paymentMethod = paymentMethod;
-        this.transactionDate = transactionDate;
-        this.transactionId = transactionId;
-        this.paymentId = paymentId;
+    public Payment(int pId, double dueAmount, double securityDeposit, double defaultRent, String guestId, List<PaymentHistory> histories) {
+        this.pId = pId;
         this.dueAmount = dueAmount;
+        this.securityDeposit = securityDeposit;
+        this.defaultRent = defaultRent;
+        this.guestId = guestId;
+        this.histories = histories;
     }
 
     public Payment() {
     }
 
-    public int getGuestId() {
-        return guestId;
+    public int getpId() {
+        return pId;
     }
 
-    public void setGuestId(int guestId) {
-        this.guestId = guestId;
+    public void setpId(int pId) {
+        this.pId = pId;
     }
 
-    public int getAmountPaid() {
-        return amountPaid;
-    }
-
-    public void setAmountPaid(int amountPaid) {
-        this.amountPaid = amountPaid;
-    }
-
-    public int getRoomRent() {
-        return roomRent;
-    }
-
-    public void setRoomRent(int roomRent) {
-        this.roomRent = roomRent;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public Date getTransactionDate() {
-        return transactionDate;
-    }
-
-    public void setTransactionDate(Date transactionDate) {
-        this.transactionDate = transactionDate;
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public int getPaymentId() {
-        return paymentId;
-    }
-
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
-    }
-
-    public int getDueAmount() {
+    public double getDueAmount() {
         return dueAmount;
     }
 
-    public void setDueAmount(int dueAmount) {
+    public void setDueAmount(double dueAmount) {
         this.dueAmount = dueAmount;
+    }
+
+    public double getSecurityDeposit() {
+        return securityDeposit;
+    }
+
+    public void setSecurityDeposit(double securityDeposit) {
+        this.securityDeposit = securityDeposit;
+    }
+
+    public double getDefaultRent() {
+        return defaultRent;
+    }
+
+    public void setDefaultRent(double defaultRent) {
+        this.defaultRent = defaultRent;
+    }
+
+    public String getGuestId() {
+        return guestId;
+    }
+
+    public void setGuestId(String guestId) {
+        this.guestId = guestId;
+    }
+
+    public List<PaymentHistory> getHistories() {
+        return histories;
+    }
+
+    public void setHistories(List<PaymentHistory> histories) {
+        this.histories = histories;
     }
 }

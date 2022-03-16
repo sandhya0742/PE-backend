@@ -10,11 +10,11 @@ public interface GuestInterface {
 
     public List<Guest> getGuests();
 
-    public Guest getGuestById(int guestId);
+    public Guest getGuestById(String guestId);
 
-    public GuestResponse addGuest(GuestRequest request);
+    public Guest addGuest(Guest guest);
 
-    public Guest updateGuest(int guestId);
+    public Guest updateGuest(String guestId);
 
-    public void deleteGuest(int guestId);
+    public void deleteGuest(String guestId);
 }

@@ -1,6 +1,5 @@
 package com.arshaa.controller;
 
-import com.arshaa.common.GuestRequest;
 import com.arshaa.common.GuestResponse;
 import com.arshaa.entity.Guest;
 import com.arshaa.service.GuestInterface;
@@ -23,17 +22,17 @@ public class GuestController {
     }
 
     @PostMapping("/addGuest")
-    public GuestResponse saveGuest(@RequestBody GuestRequest request) {
-        return service.addGuest(request);
+    public Guest saveGuest(@RequestBody Guest guest) {
+        return service.addGuest(guest);
     }
 
     @GetMapping("/guest/{id}")
-    public Guest getOneGuest(@PathVariable("id") int id) {
+    public Guest getOneGuest(@PathVariable("id") String id) {
         return service.getGuestById(id);
     }
 
     @DeleteMapping("/guest/{id}")
-    public void delete(@PathVariable("id") int id) {
+    public void delete(@PathVariable("id") String id) {
         service.deleteGuest(id);
     }
 

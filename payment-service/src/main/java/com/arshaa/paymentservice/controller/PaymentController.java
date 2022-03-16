@@ -38,7 +38,7 @@ public class PaymentController {
     }
 
     @GetMapping("/payment/{id}")
-    public Payment findPaymentByGuestId(@PathVariable("id") int id) {
+    public Payment findPaymentByGuestId(@PathVariable("id") String id) {
         return paymentInterface.findPaymentByGuestId(id);
     }
 

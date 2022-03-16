@@ -8,10 +8,17 @@ spring:
           uri: lb://guest-service
           predicates:
             - Path=/guest-service/**
+
         - id: payment-service
           uri: lb://payment-service
           predicates:
-              - Path=/payment-service/**
+            - Path=/payment-service/**
+
+        - id: bed-service
+          uri: lb://bed-service
+          predicates:
+            - Path=/bed-service/**
+
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       globalcors:

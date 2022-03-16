@@ -7,7 +7,7 @@ public interface PaymentInterface {
 
     public List<Payment> getPayments();
 
-    public Payment findPaymentByGuestId(int guestId);
+    public Payment findPaymentByGuestId(String guestId);
 
     public Payment addPayment(Payment payment) ;
 

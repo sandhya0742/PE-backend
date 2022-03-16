@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Payment {
 
-    private int guestId;
+    private String guestId;
     private int amountPaid;
     private int roomRent;
     private String paymentMethod;
@@ -14,9 +14,9 @@ public class Payment {
     private Date transactionDate;
     private String transactionId;
     private int paymentId;
-    private  int dueAmount;
+    private int dueAmount;
 
-    public Payment(int guestId, int amountPaid, int roomRent, String paymentMethod, Date transactionDate, String transactionId, int paymentId, int dueAmount) {
+    public Payment(String guestId, int amountPaid, int roomRent, String paymentMethod, Date transactionDate, String transactionId, int paymentId, int dueAmount) {
         this.guestId = guestId;
         this.amountPaid = amountPaid;
         this.roomRent = roomRent;
@@ -30,11 +30,11 @@ public class Payment {
     public Payment() {
     }
 
-    public int getGuestId() {
+    public String getGuestId() {
         return guestId;
     }
 
-    public void setGuestId(int guestId) {
+    public void setGuestId(String guestId) {
         this.guestId = guestId;
     }
 

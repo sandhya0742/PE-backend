@@ -21,7 +21,7 @@ public class PaymentImplement implements PaymentInterface {
     }
 
     @Override
-    public Payment findPaymentByGuestId(int guestId) {
+    public Payment findPaymentByGuestId(String guestId) {
         return paymentRepository.findByGuestId(guestId);
     }
 
@@ -41,10 +41,10 @@ public class PaymentImplement implements PaymentInterface {
     public Payment updateGuest(Payment payment) {
 
         Payment getPayment = paymentRepository.findByGuestId(payment.getGuestId());
-        getPayment.setRoomRent(payment.getRoomRent());
-        getPayment.setTransactionDate(payment.getTransactionDate());
-        getPayment.setPaymentMethod(payment.getPaymentMethod());
-        getPayment.setTransactionId(payment.getTransactionId());
+//        getPayment.setRoomRent(payment.getRoomRent());
+//        getPayment.setTransactionDate(payment.getTransactionDate());
+//        getPayment.setPaymentMethod(payment.getPaymentMethod());
+//        getPayment.setTransactionId(payment.getTransactionId());
         getPayment.setDueAmount(payment.getDueAmount());
         return paymentRepository.save(getPayment);
     }

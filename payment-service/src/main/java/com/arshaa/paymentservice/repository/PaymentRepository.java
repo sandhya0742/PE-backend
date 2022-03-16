@@ -6,5 +6,5 @@ import com.arshaa.paymentservice.entity.Payment;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
-    Payment findByGuestId(int guestId);
+    Payment findByGuestId(String guestId);
 }
