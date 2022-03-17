@@ -16,7 +16,7 @@ public class GuestController {
     @Autowired(required = true)
     private GuestInterface service;
 
-    @GetMapping("/guests")
+    @GetMapping("/getAllGuests")
     public List<Guest> getAllGuests() {
         return service.getGuests();
     }
@@ -26,12 +26,12 @@ public class GuestController {
         return service.addGuest(guest);
     }
 
-    @GetMapping("/guest/{id}")
+    @GetMapping("/getGuestByGuestId/{id}")
     public Guest getOneGuest(@PathVariable("id") String id) {
         return service.getGuestById(id);
     }
 
-    @DeleteMapping("/guest/{id}")
+    @DeleteMapping("/deleteGuestByGuestId/{id}")
     public void delete(@PathVariable("id") String id) {
         service.deleteGuest(id);
     }

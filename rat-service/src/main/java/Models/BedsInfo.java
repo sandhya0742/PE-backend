@@ -13,19 +13,16 @@ public class BedsInfo {
     private String bedId;
     private String buildingName;
 
-    public boolean isAc() {
-        return ac;
-    }
-
-    public void setAc(boolean ac) {
+    public BedsInfo(boolean bedStatus, String guestId, double defaultRent, boolean ac, int roomId, int floorId, int buildingId, String bedName, String bedId, String buildingName) {
+        this.bedStatus = bedStatus;
+        this.guestId = guestId;
+        this.defaultRent = defaultRent;
         this.ac = ac;
-    }
-
-    public String getBuildingName() {
-        return buildingName;
-    }
-
-    public void setBuildingName(String buildingName) {
+        this.roomId = roomId;
+        this.floorId = floorId;
+        this.buildingId = buildingId;
+        this.bedName = bedName;
+        this.bedId = bedId;
         this.buildingName = buildingName;
     }
 
@@ -58,7 +55,7 @@ public class BedsInfo {
     }
 
     public void setAc(boolean ac) {
-       this.ac = ac;
+        this.ac = ac;
     }
 
     public int getRoomId() {
@@ -99,6 +96,14 @@ public class BedsInfo {
 
     public void setBedId(String bedId) {
         this.bedId = bedId;
+    }
+
+    public String getBuildingName() {
+        return buildingName;
+    }
+
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
     }
 
     public BedsInfo() {
