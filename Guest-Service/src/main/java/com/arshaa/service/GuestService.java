@@ -1,5 +1,6 @@
 package com.arshaa.service;
 
+import com.arshaa.common.Bed;
 import com.arshaa.common.GuestResponse;
 import com.arshaa.entity.Guest;
 import com.arshaa.repository.GuestRepository;
@@ -42,14 +43,17 @@ public class GuestService implements GuestInterface {
 //        } else {
 //            message += "Guest Data not Saved";
 //        }
-
+        repository.save(guest);
+        Bed bed = new Bed();
+        bed.setGuestId(guest.getId());
+        bed.setBedId(guest.getBedId());
+        template.put("http://bed-service/bed-service/updateBedStatusBydBedId", bed, Bed.class);
         //payment.setGuestId(repository.findById(guest.getId()).getId());
 //        payment.setAmountPaid(guest.getAmountPaid());
 //        java.sql.Date tSqldate = new java.sql.Date(guest.getTransactionDate().getTime());
 //        payment.setTransactionDate(tSqldate);
 //        Payment payResponse = template.postForObject("http://payment-service/payment-service/doPayment", payment, Payment.class);
-
-        return repository.save(guest);
+        return guest;
     }
 
     @Override
