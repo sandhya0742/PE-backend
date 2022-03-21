@@ -180,7 +180,9 @@ public class BedController {
                         getBeds.get().forEach(bed -> {
                             BedsInfo newBed = new BedsInfo();
                             newBed.setBedId(bed.getBedId());
-                            newBed.setBedId(bed.getBedId());
+                            newBed.setGuestId(bed.getGuestId());
+                            newBed.setDefaultRent(bed.getDefaultRent());
+                            newBed.setAc(bed.isAc());
                             newBed.setBedName(bed.getBedName());
                             newBed.setBedStatus(bed.isBedStatus());
                             newBed.setFloorId(bed.getFloorId());
