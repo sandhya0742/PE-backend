@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import Models.*;
+import net.arshaa.rat.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +22,6 @@ import net.arshaa.rat.entity.Bed;
 import net.arshaa.rat.entity.Building;
 import net.arshaa.rat.entity.Floor;
 import net.arshaa.rat.entity.Room;
-import net.arshaa.rat.repository.BedRepository;
-import net.arshaa.rat.repository.FloorRepository;
-import net.arshaa.rat.repository.BuildingRepository;
-import net.arshaa.rat.repository.RoomRepository;
 
 
 @RestController
@@ -43,6 +40,9 @@ public class BedController {
 
     @Autowired
     private RoomRepository roomRepo;
+
+    @Autowired
+    private BedSummaryRepo bedsumRepo;
 
 
     //to test API
@@ -281,6 +281,61 @@ public class BedController {
         getBed.setBedStatus(!getBed.isBedStatus());
         bedrepo.save(getBed);
         return new ResponseEntity<String>("Updated Successfully", HttpStatus.OK);
+    }
+
+    //GET API FOR GETTING THE COUNT OF TOTAL BEDS AND OCCUPIED BEDS FOR RAT PIE CHART
+
+    @RequestMapping(path = "/bedSummaryForPieChart/{buildingId}", method = RequestMethod.GET)
+    public ResponseEntity<BedSummary> getBedsByBuldingId(@PathVariable int buildingId) {
+//        List<Bed> bedsList = bedrepo.findAllByBuildingId(buildingId);
+//        List<Bed> listbeds = bedSummaryRepo.findByBuildingIdAndBedStatus(buildingId, false);
+        BedSummary bs = new BedSummary();
+//        Bed bed = new Bed();
+//        int bedsCount = bedsList.size();
+//        int occupiedBedsCount = listbeds.size();
+//        bs.setTotalBeds(bedsCount);
+//        bs.setTotalOccupiedBeds(occupiedBedsCount);
+        return new ResponseEntity<>(bs, HttpStatus.OK);
+    }
+
+//GET API FOR GETTING THE COUNT OF TOTAL BEDS AND OCCUPIED BEDS FOR RAT PIE CHART
+
+    @RequestMapping(path = "/bedSummaryForPieChart", method = RequestMethod.GET)
+    public ResponseEntity<List<NewBuildModel>> getAvailableBedsByBuilding() {
+        List<NewBuildModel> info = new ArrayList<NewBuildModel>();
+        List<Building> getBuildings = buildingRepo.findAll();
+        if (!getBuildings.isEmpty()) {
+            getBuildings.forEach(building -> {
+                NewBuildModel newBuild = new NewBuildModel();
+                Optional<Building> getBuilding = buildingRepo.findById(building.getBuilding_id());
+                if (getBuilding.isPresent()) {
+                    newBuild.setBuilding_id(getBuilding.get().getBuilding_id());
+                    newBuild.setBuilding_name(getBuilding.get().getBuilding_name());
+                    List<BedSummary> bedSum = new ArrayList<>();
+
+
+                    List<Bed> bedsList = bedrepo.findAllByBuildingId(building.getBuilding_id());
+                    List<Bed> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(), false);
+                    List<Bed> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(), true);
+
+
+                    BedSummary bs = new BedSummary();
+//Bed bed = new Bed();
+                    int bedsCount = bedsList.size();
+                    int occupiedBedsCount = listbeds.size();
+                    int totalAvailableBeds = listOfAvailablebeds.size();
+                    bs.setTotalBeds(bedsCount);
+                    bs.setOccupiedBeds(occupiedBedsCount);
+                    bs.setAvailableBeds(totalAvailableBeds);
+                    bedSum.add(bs);
+
+
+                    newBuild.setBedSummary(bedSum);
+                    info.add(newBuild);
+                }
+            });
+        }
+        return new ResponseEntity<>(info, HttpStatus.OK);
     }
 }
 

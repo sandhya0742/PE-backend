@@ -18,10 +18,11 @@ public interface BedRepository extends JpaRepository<Bed, Integer> {
 
     Optional<List<Bed>> findBybuildingIdAndBedStatus(int building_id, boolean b);
 
-
     Bed findByBedId(String bedId);
 
     Bed findByBedNum(int id);
+
+    List<Bed> findAllByBuildingId(int buildingId);
 
 
 }
