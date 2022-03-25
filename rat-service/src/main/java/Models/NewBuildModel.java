@@ -1,56 +1,57 @@
 package Models;
 
-import java.util.List;
 
 public class NewBuildModel {
 
-
-    private int building_id;
-    private String building_name;
+    private int buildingId;
+    private String buildingName;
     // private List<BedsInfo> beds;
-    private List<BedSummary> bedSummary;
+    //private List<BedSummary> bedSummary;
 
-
-    public NewBuildModel() {
-// TODO Auto-generated constructor stub
+    private int totalBeds;
+    private int occupiedBeds;
+    private int availableBeds;
+    public int getBuildingId() {
+        return buildingId;
     }
-
-
-    public NewBuildModel(int building_id, String building_name, List<BedSummary> bedSummary) {
+    public void setBuildingId(int buildingId) {
+        this.buildingId = buildingId;
+    }
+    public String getBuildingName() {
+        return buildingName;
+    }
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
+    }
+    public int getTotalBeds() {
+        return totalBeds;
+    }
+    public void setTotalBeds(int totalBeds) {
+        this.totalBeds = totalBeds;
+    }
+    public int getOccupiedBeds() {
+        return occupiedBeds;
+    }
+    public void setOccupiedBeds(int occupiedBeds) {
+        this.occupiedBeds = occupiedBeds;
+    }
+    public int getAvailableBeds() {
+        return availableBeds;
+    }
+    public void setAvailableBeds(int availableBeds) {
+        this.availableBeds = availableBeds;
+    }
+    public NewBuildModel(int buildingId, String buildingName, int totalBeds, int occupiedBeds, int availableBeds) {
         super();
-        this.building_id = building_id;
-        this.building_name = building_name;
-        this.bedSummary = bedSummary;
+        this.buildingId = buildingId;
+        this.buildingName = buildingName;
+        this.totalBeds = totalBeds;
+        this.occupiedBeds = occupiedBeds;
+        this.availableBeds = availableBeds;
     }
-
-
-    public int getBuilding_id() {
-        return building_id;
-    }
-
-
-    public void setBuilding_id(int building_id) {
-        this.building_id = building_id;
-    }
-
-
-    public String getBuilding_name() {
-        return building_name;
-    }
-
-
-    public void setBuilding_name(String building_name) {
-        this.building_name = building_name;
-    }
-
-
-    public List<BedSummary> getBedSummary() {
-        return bedSummary;
-    }
-
-
-    public void setBedSummary(List<BedSummary> bedSummary) {
-        this.bedSummary = bedSummary;
+    public NewBuildModel() {
+        super();
+        // TODO Auto-generated constructor stub
     }
 
 

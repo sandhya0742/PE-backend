@@ -1,6 +1,6 @@
 package com.arshaa.controller;
 
-import com.arshaa.common.GuestResponse;
+import com.arshaa.common.Bed;
 import com.arshaa.entity.Guest;
 import com.arshaa.service.GuestInterface;
 import org.springframework.beans.factory.annotation.Autowired;

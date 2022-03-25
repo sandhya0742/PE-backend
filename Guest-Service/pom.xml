@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.arshaa</groupId>
-    <artifactId>guestOnboarding</artifactId>
+    <artifactId>guest-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>guest-service</name>

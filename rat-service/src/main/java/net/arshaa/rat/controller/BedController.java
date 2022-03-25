@@ -4,25 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import Models.*;
-import net.arshaa.rat.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import Models.BedSummary;
+import Models.BedsInfo;
+import Models.BuildingInfo;
+import Models.BuildingModel;
+import Models.FloorsInfo;
+import Models.NewBuildModel;
+import Models.RoomsInfo;
 import net.arshaa.rat.entity.Bed;
 import net.arshaa.rat.entity.Building;
 import net.arshaa.rat.entity.Floor;
 import net.arshaa.rat.entity.Room;
-
+import net.arshaa.rat.repository.BedRepository;
+import net.arshaa.rat.repository.BedSummaryRepo;
+import net.arshaa.rat.repository.FloorRepository;
+import net.arshaa.rat.repository.BuildingRepository;
+import net.arshaa.rat.repository.RoomRepository;
 
 @RestController
 @RequestMapping("/bed-service")
@@ -45,7 +53,7 @@ public class BedController {
     private BedSummaryRepo bedsumRepo;
 
 
-    //to test API
+//Api for test
 
     @RequestMapping(path = "/test")
     public ResponseEntity<String> test() {
@@ -53,9 +61,9 @@ public class BedController {
     }
 
 
-    //GET ALL BUILDINGS
+// GET ALL BUILDINGS
 
-    @RequestMapping(path = "/getBedsByAllBuildings", method = RequestMethod.GET)
+    @RequestMapping(path = "/getBedsByAllBuildings")
     public ResponseEntity<List<BuildingInfo>> getBedsByBuildings() {
         List<BuildingInfo> info = new ArrayList<>();
         List<Building> getBuildings = buildingRepo.findAll();
@@ -84,12 +92,15 @@ public class BedController {
                                             BedsInfo newBed = new BedsInfo();
                                             newBed.setBedStatus(bed.isBedStatus());
                                             newBed.setBuildingId(bed.getBuildingId());
+                                            newBed.setBuildingName(bed.getBuildingName());
                                             newBed.setFloorId(bed.getFloorId());
                                             newBed.setDefaultRent(bed.getDefaultRent());
                                             newBed.setRoomId(bed.getRoomId());
                                             newBed.setAc(bed.isAc());
                                             newBed.setBedId(bed.getBedId());
                                             newBed.setBedName(bed.getBedName());
+                                            newBed.setBedNum(bed.getBedNum());
+                                            newBed.setGuestId(bed.getGuestId());
                                             bedsList.add(newBed);
                                         });
                                     }
@@ -110,7 +121,7 @@ public class BedController {
     }
 
 
-    // Get beds by building Id
+// Get beds by building Id
 
     @RequestMapping(path = "/getBedsByBuildingId/{id}", method = RequestMethod.GET)
     public ResponseEntity<BuildingInfo> getByBuildingId(@PathVariable Integer id) {
@@ -136,15 +147,17 @@ public class BedController {
                             if (getBeds.isPresent()) {
                                 getBeds.get().forEach(bed -> {
                                     BedsInfo newBed = new BedsInfo();
-                                    newBed.setBedStatus(bed.isBedStatus());
                                     newBed.setBuildingId(bed.getBuildingId());
-                                    newBed.setFloorId(bed.getFloorId());
-                                    newBed.setDefaultRent(bed.getDefaultRent());
+                                    newBed.setBuildingName(bed.getBuildingName());
                                     newBed.setRoomId(bed.getRoomId());
-                                    newBed.setAc(bed.isAc());
+                                    newBed.setFloorId(bed.getFloorId());
                                     newBed.setBedId(bed.getBedId());
                                     newBed.setBedName(bed.getBedName());
-
+                                    newBed.setBedStatus(bed.isBedStatus());
+                                    newBed.setDefaultRent(bed.getDefaultRent());
+                                    newBed.setAc(bed.isAc());
+                                    newBed.setGuestId(bed.getGuestId());
+                                    newBed.setBedNum(bed.getBedNum());
                                     bedsList.add(newBed);
                                 });
                             }
@@ -154,7 +167,6 @@ public class BedController {
                     }
                     newFloor.setRooms(roomList);
                     floorsList.add(newFloor);
-
                 });
             }
             info.setFloors(floorsList);
@@ -162,43 +174,6 @@ public class BedController {
         return new ResponseEntity<>(info, HttpStatus.OK);
     }
 
-    //GET MAPPING API FOR AVAILABLE BEDS FOR ALL BUILDINGS
-    @RequestMapping(path = "/getAvailableBedsByAllBuildings", method = RequestMethod.GET)
-    public ResponseEntity<List<BuildingModel>> getAvailableBedsByBuildings() {
-        List<BuildingModel> info = new ArrayList<>();
-        List<Building> getBuildings = buildingRepo.findAll();
-        if (!getBuildings.isEmpty()) {
-            getBuildings.forEach(building -> {
-                BuildingModel newBuild = new BuildingModel();
-                Optional<Building> getBuilding = buildingRepo.findById(building.getBuilding_id());
-                if (getBuilding.isPresent()) {
-                    newBuild.setBuilding_id(getBuilding.get().getBuilding_id());
-                    newBuild.setBuilding_name(getBuilding.get().getBuilding_name());
-                    List<BedsInfo> bedsList = new ArrayList<>();
-                    Optional<List<Bed>> getBeds = bedrepo.findBybuildingIdAndBedStatus(getBuilding.get().getBuilding_id(), true);
-                    if (getBeds.isPresent()) {
-                        getBeds.get().forEach(bed -> {
-                            BedsInfo newBed = new BedsInfo();
-                            newBed.setBedId(bed.getBedId());
-                            newBed.setGuestId(bed.getGuestId());
-                            newBed.setDefaultRent(bed.getDefaultRent());
-                            newBed.setAc(bed.isAc());
-                            newBed.setBedName(bed.getBedName());
-                            newBed.setBedStatus(bed.isBedStatus());
-                            newBed.setFloorId(bed.getFloorId());
-                            newBed.setBuildingName(bed.getBuildingName());
-                            newBed.setRoomId(bed.getRoomId());
-                            newBed.setBuildingId(bed.getBuildingId());
-                            bedsList.add(newBed);
-                        });
-                    }
-                    newBuild.setBeds(bedsList);
-                    info.add(newBuild);
-                }
-            });
-        }
-        return new ResponseEntity<>(info, HttpStatus.OK);
-    }
 
     // GET MAPPING API FOR AVAILABLE BEDS BY BUILDING ID
 
@@ -218,14 +193,6 @@ public class BedController {
                             if (getBeds.isPresent()) {
                                 getBeds.get().forEach(bed -> {
                                     Bed newBed = new Bed();
-                                    newBed.setBedId(bed.getBedId());
-                                    newBed.setBedId(bed.getBedId());
-                                    newBed.setBedName(bed.getBedName());
-                                    newBed.setBedStatus(bed.isBedStatus());
-                                    newBed.setFloorId(bed.getFloorId());
-                                    newBed.setRoomId(bed.getRoomId());
-                                    newBed.setBuildingName(getBuilding.get().getBuilding_name());
-                                    newBed.setBuildingId(getBuilding.get().getBuilding_id());
                                     listbed.add(newBed);
                                 });
                             }
@@ -237,7 +204,8 @@ public class BedController {
         return new ResponseEntity<List<Bed>>(listbed, HttpStatus.OK);
     }
 
-    //GET MAPPING API FOR NOT AVAILABLE BEDS BY BUILDING ID
+
+// GET MAPPING API FOR NOT AVAILABLE BEDS BY BUILDING ID
 
     @RequestMapping(path = "/getNotAvailableBedsByBuildingId/{id}", method = RequestMethod.GET)
     public ResponseEntity<java.util.List<Bed>> getNotAvailableBedsByBuildingId(@PathVariable Integer id) {
@@ -261,6 +229,10 @@ public class BedController {
                                     newBed.setBedStatus(bed.isBedStatus());
                                     newBed.setFloorId(bed.getFloorId());
                                     newBed.setRoomId(bed.getRoomId());
+                                    newBed.setBedNum(bed.getBedNum());
+                                    newBed.setDefaultRent(bed.getDefaultRent());
+                                    newBed.setBuildingId(bed.getBuildingId());
+                                    newBed.setBuildingName(bed.getBuildingName());
                                     listbed.add(newBed);
                                 });
                             }
@@ -273,34 +245,63 @@ public class BedController {
     }
 
 
+//    getApi for all buldings available beds
+
+    @RequestMapping(path = "/getAvailableBedsByBuildings")
+    public ResponseEntity<List<BuildingModel>> getAvailableBedsByBuildings() {
+        List<BuildingModel> info = new ArrayList<>();
+        List<Building> getBuildings = buildingRepo.findAll();
+        if (!getBuildings.isEmpty()) {
+            getBuildings.forEach(building -> {
+                BuildingModel newBuild = new BuildingModel();
+                Optional<Building> getBuilding = buildingRepo.findById(building.getBuilding_id());
+                if (getBuilding.isPresent()) {
+                    newBuild.setBuildingId(getBuilding.get().getBuilding_id());
+                    newBuild.setBuildingName(getBuilding.get().getBuilding_name());
+                    List<BedsInfo> bedsList = new ArrayList<>();
+                    Optional<List<Bed>> getBeds = bedrepo
+                            .findBybuildingIdAndBedStatus(getBuilding.get().getBuilding_id(), true);
+                    if (getBeds.isPresent()) {
+                        getBeds.get().forEach(bed -> {
+                            BedsInfo newBed = new BedsInfo();
+                            newBed.setBedId(bed.getBedId());
+                            newBed.setBedId(bed.getBedId());
+                            newBed.setBedName(bed.getBedName());
+                            newBed.setBedStatus(bed.isBedStatus());
+                            newBed.setFloorId(bed.getFloorId());
+                            newBed.setRoomId(bed.getRoomId());
+                            newBed.setBedNum(bed.getBedNum());
+                            newBed.setBuildingId(bed.getBuildingId());
+                            newBed.setBuildingName(bed.getBuildingName());
+                            newBed.setGuestId(bed.getGuestId());
+                            bedsList.add(newBed);
+
+                        });
+                    }
+                    newBuild.setBeds(bedsList);
+                    info.add(newBuild);
+                }
+            });
+        }
+        return new ResponseEntity<>(info, HttpStatus.OK);
+    }
+
+
+//UPDATE API FOR BED STATUS AND GUEST ID BY BEDID
+
     @PutMapping("/updateBedStatusBydBedId")
     public ResponseEntity<String> updateBedStatusByBedNumber(@RequestBody Bed bed) {
-        Bed getBed = bedrepo.findByBedId(bed.getBedId());
-        //int getBedNum = getBed.getBedNum();
+        Bed getBed = bedrepo.findByBedId("110-A-NonAC");
         getBed.setGuestId(bed.getGuestId());
         getBed.setBedStatus(!getBed.isBedStatus());
         bedrepo.save(getBed);
         return new ResponseEntity<String>("Updated Successfully", HttpStatus.OK);
     }
 
-    //GET API FOR GETTING THE COUNT OF TOTAL BEDS AND OCCUPIED BEDS FOR RAT PIE CHART
 
-    @RequestMapping(path = "/bedSummaryForPieChart/{buildingId}", method = RequestMethod.GET)
-    public ResponseEntity<BedSummary> getBedsByBuldingId(@PathVariable int buildingId) {
-//        List<Bed> bedsList = bedrepo.findAllByBuildingId(buildingId);
-//        List<Bed> listbeds = bedSummaryRepo.findByBuildingIdAndBedStatus(buildingId, false);
-        BedSummary bs = new BedSummary();
-//        Bed bed = new Bed();
-//        int bedsCount = bedsList.size();
-//        int occupiedBedsCount = listbeds.size();
-//        bs.setTotalBeds(bedsCount);
-//        bs.setTotalOccupiedBeds(occupiedBedsCount);
-        return new ResponseEntity<>(bs, HttpStatus.OK);
-    }
+//GET API FOR GETTING THE COUNT OF TOTAL BEDS AND OCCUPIED BEDS FOR RAT PIE CHART FOR ALL BUILDINGS
 
-//GET API FOR GETTING THE COUNT OF TOTAL BEDS AND OCCUPIED BEDS FOR RAT PIE CHART
-
-    @RequestMapping(path = "/bedSummaryForPieChart", method = RequestMethod.GET)
+    @RequestMapping(path = "/getBedSummaryForPieChartByAllBuildings", method = RequestMethod.GET)
     public ResponseEntity<List<NewBuildModel>> getAvailableBedsByBuilding() {
         List<NewBuildModel> info = new ArrayList<NewBuildModel>();
         List<Building> getBuildings = buildingRepo.findAll();
@@ -309,34 +310,49 @@ public class BedController {
                 NewBuildModel newBuild = new NewBuildModel();
                 Optional<Building> getBuilding = buildingRepo.findById(building.getBuilding_id());
                 if (getBuilding.isPresent()) {
-                    newBuild.setBuilding_id(getBuilding.get().getBuilding_id());
-                    newBuild.setBuilding_name(getBuilding.get().getBuilding_name());
-                    List<BedSummary> bedSum = new ArrayList<>();
-
-
+                    newBuild.setBuildingId(getBuilding.get().getBuilding_id());
+                    newBuild.setBuildingName(getBuilding.get().getBuilding_name());
                     List<Bed> bedsList = bedrepo.findAllByBuildingId(building.getBuilding_id());
                     List<Bed> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(), false);
-                    List<Bed> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(), true);
-
-
-                    BedSummary bs = new BedSummary();
-//Bed bed = new Bed();
+                    List<Bed> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(),
+                            true);
                     int bedsCount = bedsList.size();
                     int occupiedBedsCount = listbeds.size();
                     int totalAvailableBeds = listOfAvailablebeds.size();
-                    bs.setTotalBeds(bedsCount);
-                    bs.setOccupiedBeds(occupiedBedsCount);
-                    bs.setAvailableBeds(totalAvailableBeds);
-                    bedSum.add(bs);
-
-
-                    newBuild.setBedSummary(bedSum);
+                    newBuild.setTotalBeds(bedsCount);
+                    newBuild.setOccupiedBeds(occupiedBedsCount);
+                    newBuild.setAvailableBeds(totalAvailableBeds);
                     info.add(newBuild);
                 }
             });
         }
         return new ResponseEntity<>(info, HttpStatus.OK);
     }
+
+//GET API FOR GETTING THE COUNT OF TOTAL BEDS AND OCCUPIED BEDS FOR RAT PIE CHART BY BUILDING ID
+
+    @RequestMapping(path = "/getBedSummaryForPieChartByBuildingId/{buildingId}", method = RequestMethod.GET)
+    public ResponseEntity<List<NewBuildModel>> getAvailableBedsByBuildingId(@PathVariable int buildingId) {
+        List<NewBuildModel> info = new ArrayList<>();
+        NewBuildModel newBuild = new NewBuildModel();
+        Optional<Building> getBuilding = buildingRepo.findById(buildingId);
+        if (getBuilding.isPresent()) {
+            newBuild.setBuildingId(getBuilding.get().getBuilding_id());
+            newBuild.setBuildingName(getBuilding.get().getBuilding_name());
+            List<Bed> bedsList = bedrepo.findAllByBuildingId(buildingId);
+            List<Bed> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(buildingId, false);
+            List<Bed> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(buildingId, true);
+            int bedsCount = bedsList.size();
+            int occupiedBedsCount = listbeds.size();
+            int totalAvailableBeds = listOfAvailablebeds.size();
+            newBuild.setTotalBeds(bedsCount);
+            newBuild.setOccupiedBeds(occupiedBedsCount);
+            newBuild.setAvailableBeds(totalAvailableBeds);
+            info.add(newBuild);
+        }
+        return new ResponseEntity<>(info, HttpStatus.OK);
+
+    }
+
+
 }
-
-

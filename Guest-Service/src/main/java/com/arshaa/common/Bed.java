@@ -3,12 +3,11 @@ package com.arshaa.common;
 public class Bed {
 
     private String guestId;
-    private boolean bedStatus;
     private String bedId;
 
     public Bed(String guestId, boolean bedStatus, String bedId) {
         this.guestId = guestId;
-        this.bedStatus = bedStatus;
+//        this.bedStatus = bedStatus;
         this.bedId = bedId;
     }
 
@@ -23,13 +22,13 @@ public class Bed {
         this.guestId = guestId;
     }
 
-    public boolean isBedStatus() {
-        return bedStatus;
-    }
-
-    public void setBedStatus(boolean bedStatus) {
-        this.bedStatus = bedStatus;
-    }
+//    public boolean isBedStatus() {
+//        return bedStatus;
+//    }
+//
+//    public void setBedStatus(boolean bedStatus) {
+//        this.bedStatus = bedStatus;
+//    }
 
     public String getBedId() {
         return bedId;

@@ -28,14 +28,16 @@ public class Guest implements Serializable {
     private String secondaryPhoneNumber;
     private String fatherName;
     private String fatherNumber;
-    private String localGaurdianName;
-    private String localGaurdianPhoneNumber;
+    private String localGuardianName;
+    private String localGuardianPhoneNumber;
     private String bloodGroup;
     private String occupation;
+    private String occupancyType;
     private String gender;
     private String aadharNumber;
     private String buildingName;
     private String bedId;
+    private double rentPaid;
     private String addressLine1;
     private String addressLine2;
     private String pincode;
@@ -44,20 +46,23 @@ public class Guest implements Serializable {
     private String workPhone;
     private String workAddressLine1;
     private String workAddressLine2;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date checkInDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date noticeDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date checkOutDate;
-    private String duration;
+    private String transactionId;
+    //    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private Date checkInDate;
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private Date noticeDate;
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private Date checkOutDate;
+//    private String duration;
     private double securityDeposit;
     private String checkinNotes;
     @Temporal(TemporalType.DATE)
     private java.util.Date transactionDate = new java.util.Date(System.currentTimeMillis());
+    @Temporal(TemporalType.DATE)
+    private java.util.Date checkInDate = new java.util.Date(System.currentTimeMillis());
     private boolean termsOfService;
 
-    public Guest(String id, String firstName, String lastName, String email, Date dateOfBirth, String personalNumber, String secondaryPhoneNumber, String fatherName, String fatherNumber, String localGaurdianName, String localGaurdianPhoneNumber, String bloodGroup, String occupation, String gender, String aadharNumber, String buildingName, String bedId, String addressLine1, String addressLine2, String pincode, String city, String state, String workPhone, String workAddressLine1, String workAddressLine2, Date checkInDate, Date noticeDate, Date checkOutDate, String duration, double securityDeposit, String checkinNotes, java.util.Date transactionDate, boolean termsOfService) {
+    public Guest(String id, String firstName, String lastName, String email, Date dateOfBirth, String personalNumber, String secondaryPhoneNumber, String fatherName, String fatherNumber, String localGuardianName, String localGuardianPhoneNumber, String bloodGroup, String occupation, String occupancyType, String gender, String aadharNumber, String buildingName, String bedId, double rentPaid, String addressLine1, String addressLine2, String pincode, String city, String state, String workPhone, String workAddressLine1, String workAddressLine2, String transactionId, double securityDeposit, String checkinNotes, java.util.Date transactionDate, java.util.Date checkInDate, boolean termsOfService) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -67,14 +72,16 @@ public class Guest implements Serializable {
         this.secondaryPhoneNumber = secondaryPhoneNumber;
         this.fatherName = fatherName;
         this.fatherNumber = fatherNumber;
-        this.localGaurdianName = localGaurdianName;
-        this.localGaurdianPhoneNumber = localGaurdianPhoneNumber;
+        this.localGuardianName = localGuardianName;
+        this.localGuardianPhoneNumber = localGuardianPhoneNumber;
         this.bloodGroup = bloodGroup;
         this.occupation = occupation;
+        this.occupancyType = occupancyType;
         this.gender = gender;
         this.aadharNumber = aadharNumber;
         this.buildingName = buildingName;
         this.bedId = bedId;
+        this.rentPaid = rentPaid;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.pincode = pincode;
@@ -83,13 +90,11 @@ public class Guest implements Serializable {
         this.workPhone = workPhone;
         this.workAddressLine1 = workAddressLine1;
         this.workAddressLine2 = workAddressLine2;
-        this.checkInDate = checkInDate;
-        this.noticeDate = noticeDate;
-        this.checkOutDate = checkOutDate;
-        this.duration = duration;
+        this.transactionId = transactionId;
         this.securityDeposit = securityDeposit;
         this.checkinNotes = checkinNotes;
         this.transactionDate = transactionDate;
+        this.checkInDate = checkInDate;
         this.termsOfService = termsOfService;
     }
 
@@ -168,20 +173,20 @@ public class Guest implements Serializable {
         this.fatherNumber = fatherNumber;
     }
 
-    public String getLocalGaurdianName() {
-        return localGaurdianName;
+    public String getLocalGuardianName() {
+        return localGuardianName;
     }
 
-    public void setLocalGaurdianName(String localGaurdianName) {
-        this.localGaurdianName = localGaurdianName;
+    public void setLocalGuardianName(String localGuardianName) {
+        this.localGuardianName = localGuardianName;
     }
 
-    public String getLocalGaurdianPhoneNumber() {
-        return localGaurdianPhoneNumber;
+    public String getLocalGuardianPhoneNumber() {
+        return localGuardianPhoneNumber;
     }
 
-    public void setLocalGaurdianPhoneNumber(String localGaurdianPhoneNumber) {
-        this.localGaurdianPhoneNumber = localGaurdianPhoneNumber;
+    public void setLocalGuardianPhoneNumber(String localGuardianPhoneNumber) {
+        this.localGuardianPhoneNumber = localGuardianPhoneNumber;
     }
 
     public String getBloodGroup() {
@@ -198,6 +203,14 @@ public class Guest implements Serializable {
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;
+    }
+
+    public String getOccupancyType() {
+        return occupancyType;
+    }
+
+    public void setOccupancyType(String occupancyType) {
+        this.occupancyType = occupancyType;
     }
 
     public String getGender() {
@@ -230,6 +243,14 @@ public class Guest implements Serializable {
 
     public void setBedId(String bedId) {
         this.bedId = bedId;
+    }
+
+    public double getRentPaid() {
+        return rentPaid;
+    }
+
+    public void setRentPaid(double rentPaid) {
+        this.rentPaid = rentPaid;
     }
 
     public String getAddressLine1() {
@@ -296,36 +317,12 @@ public class Guest implements Serializable {
         this.workAddressLine2 = workAddressLine2;
     }
 
-    public Date getCheckInDate() {
-        return checkInDate;
+    public String getTransactionId() {
+        return transactionId;
     }
 
-    public void setCheckInDate(Date checkInDate) {
-        this.checkInDate = checkInDate;
-    }
-
-    public Date getNoticeDate() {
-        return noticeDate;
-    }
-
-    public void setNoticeDate(Date noticeDate) {
-        this.noticeDate = noticeDate;
-    }
-
-    public Date getCheckOutDate() {
-        return checkOutDate;
-    }
-
-    public void setCheckOutDate(Date checkOutDate) {
-        this.checkOutDate = checkOutDate;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 
     public double getSecurityDeposit() {
@@ -350,6 +347,14 @@ public class Guest implements Serializable {
 
     public void setTransactionDate(java.util.Date transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public java.util.Date getCheckInDate() {
+        return checkInDate;
+    }
+
+    public void setCheckInDate(java.util.Date checkInDate) {
+        this.checkInDate = checkInDate;
     }
 
     public boolean isTermsOfService() {

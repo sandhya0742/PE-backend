@@ -1,42 +1,48 @@
 package Models;
 import java.util.List;
+
 public class BuildingModel {
-    private int building_id;
-    private String building_name;
+    private int buildingId;
+    private String buildingName;
     private List<BedsInfo> beds;
-    public BuildingModel(int building_id, String building_name, List<BedsInfo> beds) {
+    private List<BedSummary>bedSum;
+    public BuildingModel(int buildingId, String buildingName, List<BedsInfo> beds, List<BedSummary> bedSum) {
         super();
-        this.building_id = building_id;
-        this.building_name = building_name;
+        this.buildingId = buildingId;
+        this.buildingName = buildingName;
         this.beds = beds;
+        this.bedSum = bedSum;
     }
-
-    public int getBuilding_id() {
-        return building_id;
+    public int getBuildingId() {
+        return buildingId;
     }
-
-    public void setBuilding_id(int building_id) {
-        this.building_id = building_id;
+    public void setBuildingId(int buildingId) {
+        this.buildingId = buildingId;
     }
-
-    public String getBuilding_name() {
-        return building_name;
+    public String getBuildingName() {
+        return buildingName;
     }
-
-    public void setBuilding_name(String building_name) {
-        this.building_name = building_name;
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
     }
-
     public List<BedsInfo> getBeds() {
         return beds;
     }
-
     public void setBeds(List<BedsInfo> beds) {
         this.beds = beds;
     }
-
-    public BuildingModel() {
-// TODO Auto-generated constructor stub
+    public List<BedSummary> getBedSum() {
+        return bedSum;
     }
+    public void setBedSum(List<BedSummary> bedSum) {
+        this.bedSum = bedSum;
+    }
+    public BuildingModel() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+
+
 
 }

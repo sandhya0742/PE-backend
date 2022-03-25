@@ -1,7 +1,6 @@
 package com.arshaa.service;
 
-import com.arshaa.common.GuestRequest;
-import com.arshaa.common.GuestResponse;
+import com.arshaa.common.Bed;
 import com.arshaa.entity.Guest;
 
 import java.util.List;

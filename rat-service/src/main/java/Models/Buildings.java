@@ -16,8 +16,8 @@ public class Buildings {
 
 	public void setBuildings(BuildingInfo info) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
+
+
 }

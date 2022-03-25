@@ -1,7 +1,6 @@
 package com.arshaa.service;
 
 import com.arshaa.common.Bed;
-import com.arshaa.common.GuestResponse;
 import com.arshaa.entity.Guest;
 import com.arshaa.repository.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,8 @@ public class GuestService implements GuestInterface {
         //Payment payment = request.getPayment();
         java.sql.Date tSqlDate = new java.sql.Date(guest.getTransactionDate().getTime());
         guest.setTransactionDate(tSqlDate);
+        java.sql.Date cSqlDate = new java.sql.Date(guest.getCheckInDate().getTime());
+        guest.setTransactionDate(cSqlDate);
         //System.out.println(guest);
 //        if (repository.save(guest) != null) {
 //            message += "Guest Onboarded Successfully";
@@ -47,7 +48,9 @@ public class GuestService implements GuestInterface {
         Bed bed = new Bed();
         bed.setGuestId(guest.getId());
         bed.setBedId(guest.getBedId());
-        template.put("http://bed-service/bed-service/updateBedStatusBydBedId", bed, Bed.class);
+        System.out.println(bed.getGuestId());
+        System.out.println(bed.getBedId());
+         template.put("http://bed-service/bed-service/updateBedStatusBydBedId", bed, Bed.class);
         //payment.setGuestId(repository.findById(guest.getId()).getId());
 //        payment.setAmountPaid(guest.getAmountPaid());
 //        java.sql.Date tSqldate = new java.sql.Date(guest.getTransactionDate().getTime());

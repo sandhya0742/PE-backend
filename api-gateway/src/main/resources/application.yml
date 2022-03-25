@@ -19,6 +19,11 @@ spring:
           predicates:
             - Path=/bed-service/**
 
+        - id: bed-service
+          uri: lb://login-service
+          predicates:
+            - Path=/login-service/**
+
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       globalcors:
@@ -32,8 +37,6 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
-  instance:
-    hostname: localhost
 
 
 server:
