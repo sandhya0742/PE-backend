@@ -32,9 +32,9 @@ import net.arshaa.rat.repository.FloorRepository;
 import net.arshaa.rat.repository.BuildingRepository;
 import net.arshaa.rat.repository.RoomRepository;
 
-@RestController
-@RequestMapping("/bed-service")
 @CrossOrigin("*")
+@RestController
+@RequestMapping("bed-service")
 public class BedController {
 
     @Autowired
@@ -290,12 +290,13 @@ public class BedController {
 //UPDATE API FOR BED STATUS AND GUEST ID BY BEDID
 
     @PutMapping("/updateBedStatusBydBedId")
-    public ResponseEntity<String> updateBedStatusByBedNumber(@RequestBody Bed bed) {
-        Bed getBed = bedrepo.findByBedId("110-A-NonAC");
+    public ResponseEntity<Bed> updateBedStatusByBedNumber(@RequestBody Bed bed) {
+        Bed getBed = bedrepo.findByBedId(bed.getBedId());
         getBed.setGuestId(bed.getGuestId());
+        getBed.setBedId(bed.getBedId());
         getBed.setBedStatus(!getBed.isBedStatus());
         bedrepo.save(getBed);
-        return new ResponseEntity<String>("Updated Successfully", HttpStatus.OK);
+        return new ResponseEntity<Bed>(getBed, HttpStatus.OK);
     }
 
 
