@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Service
@@ -32,6 +34,7 @@ public class GuestService implements GuestInterface {
 
     @Override
     public Guest addGuest(Guest guest) {
+        String baseUri = "http://bedService/bed/updateBedStatusBydBedId";
         java.sql.Date tSqlDate = new java.sql.Date(guest.getTransactionDate().getTime());
         guest.setTransactionDate(tSqlDate);
         java.sql.Date cSqlDate = new java.sql.Date(guest.getCheckInDate().getTime());
@@ -40,7 +43,7 @@ public class GuestService implements GuestInterface {
         Bed bedReq = new Bed();
         bedReq.setBedId(guest.getBedId());
         bedReq.setGuestId(guest.getId());
-        Bed bedRes = template.postForObject("http://localhost:8989/bed-service/updateBedStatusBydBedId", bedReq, Bed.class);
+        template.put(baseUri, bedReq, Bed.class);
         return guest;
     }
 

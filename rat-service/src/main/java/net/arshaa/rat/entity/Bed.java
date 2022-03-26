@@ -137,4 +137,21 @@ public class Bed {
 
     public Bed() {
     }
+
+    @Override
+    public String toString() {
+        return "Bed{" +
+                "bedNum=" + bedNum +
+                ", bedId='" + bedId + '\'' +
+                ", roomId=" + roomId +
+                ", floorId=" + floorId +
+                ", buildingId=" + buildingId +
+                ", buildingName='" + buildingName + '\'' +
+                ", bedStatus=" + bedStatus +
+                ", guestId='" + guestId + '\'' +
+                ", bedName='" + bedName + '\'' +
+                ", defaultRent=" + defaultRent +
+                ", ac=" + ac +
+                '}';
+    }
 }

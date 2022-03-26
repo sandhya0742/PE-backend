@@ -7,13 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import Models.BedSummary;
 import Models.BedsInfo;
@@ -34,7 +28,7 @@ import net.arshaa.rat.repository.RoomRepository;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("bed-service")
+@RequestMapping("/bed")
 public class BedController {
 
     @Autowired
@@ -55,7 +49,7 @@ public class BedController {
 
 //Api for test
 
-    @RequestMapping(path = "/test")
+    @GetMapping(path = "/test")
     public ResponseEntity<String> test() {
         return new ResponseEntity<>("hello", HttpStatus.OK);
     }
@@ -63,7 +57,7 @@ public class BedController {
 
 // GET ALL BUILDINGS
 
-    @RequestMapping(path = "/getBedsByAllBuildings")
+    @GetMapping(path = "/getBedsByAllBuildings")
     public ResponseEntity<List<BuildingInfo>> getBedsByBuildings() {
         List<BuildingInfo> info = new ArrayList<>();
         List<Building> getBuildings = buildingRepo.findAll();
@@ -123,7 +117,7 @@ public class BedController {
 
 // Get beds by building Id
 
-    @RequestMapping(path = "/getBedsByBuildingId/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/getBedsByBuildingId/{id}")
     public ResponseEntity<BuildingInfo> getByBuildingId(@PathVariable Integer id) {
 
         BuildingInfo info = new BuildingInfo();
@@ -177,7 +171,7 @@ public class BedController {
 
     // GET MAPPING API FOR AVAILABLE BEDS BY BUILDING ID
 
-    @RequestMapping(path = "/getAvailableBedsByBuildingId/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/getAvailableBedsByBuildingId/{id}")
     public ResponseEntity<java.util.List<Bed>> buildingId(@PathVariable Integer id) {
         List<Bed> listbed = new ArrayList<>();
         Optional<Building> getBuilding = buildingRepo.findById(id);
@@ -207,7 +201,7 @@ public class BedController {
 
 // GET MAPPING API FOR NOT AVAILABLE BEDS BY BUILDING ID
 
-    @RequestMapping(path = "/getNotAvailableBedsByBuildingId/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/getNotAvailableBedsByBuildingId/{id}")
     public ResponseEntity<java.util.List<Bed>> getNotAvailableBedsByBuildingId(@PathVariable Integer id) {
         List<Bed> listbed = new ArrayList<>();
         Optional<Building> getBuilding = buildingRepo.findById(id);
@@ -247,7 +241,7 @@ public class BedController {
 
 //    getApi for all buldings available beds
 
-    @RequestMapping(path = "/getAvailableBedsByBuildings")
+    @GetMapping(path = "/getAvailableBedsByBuildings")
     public ResponseEntity<List<BuildingModel>> getAvailableBedsByBuildings() {
         List<BuildingModel> info = new ArrayList<>();
         List<Building> getBuildings = buildingRepo.findAll();
@@ -286,23 +280,21 @@ public class BedController {
         return new ResponseEntity<>(info, HttpStatus.OK);
     }
 
-
 //UPDATE API FOR BED STATUS AND GUEST ID BY BEDID
 
     @PutMapping("/updateBedStatusBydBedId")
-    public ResponseEntity<Bed> updateBedStatusByBedNumber(@RequestBody Bed bed) {
+    public void updateBedStatusByBedId(@RequestBody Bed bed) {
         Bed getBed = bedrepo.findByBedId(bed.getBedId());
         getBed.setGuestId(bed.getGuestId());
         getBed.setBedId(bed.getBedId());
         getBed.setBedStatus(!getBed.isBedStatus());
         bedrepo.save(getBed);
-        return new ResponseEntity<Bed>(getBed, HttpStatus.OK);
     }
 
 
 //GET API FOR GETTING THE COUNT OF TOTAL BEDS AND OCCUPIED BEDS FOR RAT PIE CHART FOR ALL BUILDINGS
 
-    @RequestMapping(path = "/getBedSummaryForPieChartByAllBuildings", method = RequestMethod.GET)
+    @GetMapping(path = "/getBedSummaryForPieChartByAllBuildings")
     public ResponseEntity<List<NewBuildModel>> getAvailableBedsByBuilding() {
         List<NewBuildModel> info = new ArrayList<NewBuildModel>();
         List<Building> getBuildings = buildingRepo.findAll();
@@ -332,7 +324,7 @@ public class BedController {
 
 //GET API FOR GETTING THE COUNT OF TOTAL BEDS AND OCCUPIED BEDS FOR RAT PIE CHART BY BUILDING ID
 
-    @RequestMapping(path = "/getBedSummaryForPieChartByBuildingId/{buildingId}", method = RequestMethod.GET)
+    @GetMapping(path = "/getBedSummaryForPieChartByBuildingId/{buildingId}")
     public ResponseEntity<List<NewBuildModel>> getAvailableBedsByBuildingId(@PathVariable int buildingId) {
         List<NewBuildModel> info = new ArrayList<>();
         NewBuildModel newBuild = new NewBuildModel();
@@ -353,6 +345,12 @@ public class BedController {
         }
         return new ResponseEntity<>(info, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/getBedByBedId/{bedId}")
+    public Bed getBedByBuildingId(@PathVariable String bedId) {
+        Bed getBed = bedrepo.findByBedId(bedId);
+        return getBed;
     }
 
 

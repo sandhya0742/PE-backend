@@ -14,7 +14,7 @@ import com.arshaa.entity.User;
 import com.arshaa.service.UserService;
 
 @RestController
-@RequestMapping("login-service")
+@RequestMapping("/login")
 @CrossOrigin("*")
 public class LoginController {
 

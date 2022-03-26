@@ -1,28 +1,28 @@
 spring:
   application:
-    name: gateway-service
+    name: gatewayService
   cloud:
     gateway:
       routes:
-        - id: guest-service
-          uri: lb://guest-service
+        - id: guestService
+          uri: lb://guestService
           predicates:
-            - Path=/guest-service/**
+            - Path=/guest/**
 
         - id: payment-service
           uri: lb://payment-service
           predicates:
             - Path=/payment-service/**
 
-        - id: bed-service
-          uri: lb://bed-service
+        - id: bedService
+          uri: lb://bedService
           predicates:
-            - Path=/bed-service/**
+            - Path=/bed/**
 
         - id: login-service
-          uri: lb://login-service
+          uri: lb://loginService
           predicates:
-            - Path=/login-service/**
+            - Path=/login/**
 
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin

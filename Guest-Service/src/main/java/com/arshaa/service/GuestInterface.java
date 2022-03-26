@@ -3,6 +3,7 @@ package com.arshaa.service;
 import com.arshaa.common.Bed;
 import com.arshaa.entity.Guest;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 public interface GuestInterface {
@@ -11,7 +12,7 @@ public interface GuestInterface {
 
     public Guest getGuestById(String guestId);
 
-    public Guest addGuest(Guest guest);
+    public Guest addGuest(Guest guest) ;
 
     public Guest updateGuest(String guestId);
 

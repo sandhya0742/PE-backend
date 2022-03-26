@@ -6,11 +6,12 @@ import com.arshaa.service.GuestInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("guest-service")
+@RequestMapping("/guest")
 public class GuestController {
 
     @Autowired(required = true)
@@ -23,7 +24,9 @@ public class GuestController {
 
     @PostMapping("/addGuest")
     public Guest saveGuest(@RequestBody Guest guest) {
+
         return service.addGuest(guest);
+
     }
 
     @GetMapping("/getGuestByGuestId/{id}")
