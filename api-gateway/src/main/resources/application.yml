@@ -9,17 +9,17 @@ spring:
           predicates:
             - Path=/guest/**
 
-        - id: payment-service
-          uri: lb://payment-service
+        - id: paymentService
+          uri: lb://paymentService
           predicates:
-            - Path=/payment-service/**
+            - Path=/payment/**
 
         - id: bedService
           uri: lb://bedService
           predicates:
             - Path=/bed/**
 
-        - id: login-service
+        - id: loginService
           uri: lb://loginService
           predicates:
             - Path=/login/**

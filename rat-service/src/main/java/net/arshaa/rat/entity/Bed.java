@@ -32,8 +32,11 @@ public class Bed {
     private double defaultRent;
     @Column
     private boolean ac;
+    @Column
+    private double dueAmount;
 
-    public Bed(int bedNum, String bedId, int roomId, int floorId, int buildingId, String buildingName, boolean bedStatus, String guestId, String bedName, double defaultRent, boolean ac) {
+
+    public Bed(int bedNum, double dueAmount, String bedId, int roomId, int floorId, int buildingId, String buildingName, boolean bedStatus, String guestId, String bedName, double defaultRent, boolean ac) {
         this.bedNum = bedNum;
         this.bedId = bedId;
         this.roomId = roomId;
@@ -45,6 +48,15 @@ public class Bed {
         this.bedName = bedName;
         this.defaultRent = defaultRent;
         this.ac = ac;
+        this.dueAmount = dueAmount;
+    }
+
+    public double getDueAmount() {
+        return dueAmount;
+    }
+
+    public void setDueAmount(double dueAmount) {
+        this.dueAmount = dueAmount;
     }
 
     public int getBedNum() {

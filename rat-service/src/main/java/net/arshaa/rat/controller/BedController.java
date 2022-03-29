@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import net.arshaa.rat.repository.BedSummaryRepo;
 import net.arshaa.rat.repository.FloorRepository;
 import net.arshaa.rat.repository.BuildingRepository;
 import net.arshaa.rat.repository.RoomRepository;
+import org.springframework.web.client.RestTemplate;
 
 @CrossOrigin("*")
 @RestController
@@ -45,6 +47,10 @@ public class BedController {
 
     @Autowired
     private BedSummaryRepo bedsumRepo;
+
+    @Autowired
+    @Lazy
+    private RestTemplate template;
 
 
 //Api for test
@@ -95,6 +101,7 @@ public class BedController {
                                             newBed.setBedName(bed.getBedName());
                                             newBed.setBedNum(bed.getBedNum());
                                             newBed.setGuestId(bed.getGuestId());
+                                            newBed.setDueAmount(bed.getDueAmount());
                                             bedsList.add(newBed);
                                         });
                                     }
@@ -269,6 +276,7 @@ public class BedController {
                             newBed.setGuestId(bed.getGuestId());
                             newBed.setAc(bed.isAc());
                             newBed.setDefaultRent(bed.getDefaultRent());
+                            newBed.setDueAmount(bed.getDueAmount());
                             bedsList.add(newBed);
 
                         });

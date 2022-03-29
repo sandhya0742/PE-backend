@@ -37,7 +37,7 @@ public class Guest implements Serializable {
     private String aadharNumber;
     private String buildingName;
     private String bedId;
-    private double rentPaid;
+//    private double rentPaid;
     private String addressLine1;
     private String addressLine2;
     private String pincode;
@@ -48,13 +48,13 @@ public class Guest implements Serializable {
     private String workAddressLine2;
     private String transactionId;
     //    @JsonFormat(pattern = "yyyy-MM-dd")
-//    private Date checkInDate;
+//    private Date checkIenDate;
 //    @JsonFormat(pattern = "yyyy-MM-dd")
 //    private Date noticeDate;
 //    @JsonFormat(pattern = "yyyy-MM-dd")
 //    private Date checkOutDate;
 //    private String duration;
-    private double securityDeposit;
+    private double amountPaid;
     private String checkinNotes;
     @Temporal(TemporalType.DATE)
     private java.util.Date transactionDate = new java.util.Date(System.currentTimeMillis());
@@ -62,7 +62,7 @@ public class Guest implements Serializable {
     private java.util.Date checkInDate = new java.util.Date(System.currentTimeMillis());
     private boolean termsOfService;
 
-    public Guest(String id, String firstName, String lastName, String email, Date dateOfBirth, String personalNumber, String secondaryPhoneNumber, String fatherName, String fatherNumber, String localGuardianName, String localGuardianPhoneNumber, String bloodGroup, String occupation, String occupancyType, String gender, String aadharNumber, String buildingName, String bedId, double rentPaid, String addressLine1, String addressLine2, String pincode, String city, String state, String workPhone, String workAddressLine1, String workAddressLine2, String transactionId, double securityDeposit, String checkinNotes, java.util.Date transactionDate, java.util.Date checkInDate, boolean termsOfService) {
+    public Guest(String id, String firstName, String lastName, String email, Date dateOfBirth, String personalNumber, String secondaryPhoneNumber, String fatherName, String fatherNumber, String localGuardianName, String localGuardianPhoneNumber, String bloodGroup, String occupation, String occupancyType, String gender, String aadharNumber, String buildingName, String bedId, String addressLine1, String addressLine2, String pincode, String city, String state, String workPhone, String workAddressLine1, String workAddressLine2, String transactionId, double amountPaid, String checkinNotes, java.util.Date transactionDate, java.util.Date checkInDate, boolean termsOfService) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -81,7 +81,7 @@ public class Guest implements Serializable {
         this.aadharNumber = aadharNumber;
         this.buildingName = buildingName;
         this.bedId = bedId;
-        this.rentPaid = rentPaid;
+        //this.rentPaid = rentPaid;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.pincode = pincode;
@@ -91,7 +91,7 @@ public class Guest implements Serializable {
         this.workAddressLine1 = workAddressLine1;
         this.workAddressLine2 = workAddressLine2;
         this.transactionId = transactionId;
-        this.securityDeposit = securityDeposit;
+        this.amountPaid = amountPaid;
         this.checkinNotes = checkinNotes;
         this.transactionDate = transactionDate;
         this.checkInDate = checkInDate;
@@ -245,13 +245,13 @@ public class Guest implements Serializable {
         this.bedId = bedId;
     }
 
-    public double getRentPaid() {
-        return rentPaid;
-    }
-
-    public void setRentPaid(double rentPaid) {
-        this.rentPaid = rentPaid;
-    }
+//    public double getRentPaid() {
+//        return rentPaid;
+//    }
+//
+//    public void setRentPaid(double rentPaid) {
+//        this.rentPaid = rentPaid;
+//    }
 
     public String getAddressLine1() {
         return addressLine1;
@@ -326,11 +326,11 @@ public class Guest implements Serializable {
     }
 
     public double getSecurityDeposit() {
-        return securityDeposit;
+        return amountPaid;
     }
 
-    public void setSecurityDeposit(double securityDeposit) {
-        this.securityDeposit = securityDeposit;
+    public void setSecurityDeposit(double amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     public String getCheckinNotes() {
