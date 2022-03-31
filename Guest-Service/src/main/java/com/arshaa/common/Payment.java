@@ -6,28 +6,23 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Payment {
 
+    private double amountPaid;
     private String guestId;
-    private int amountPaid;
-    private int roomRent;
-    private String paymentMethod;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date transactionDate;
     private String transactionId;
-    private int paymentId;
-    private int dueAmount;
-
-    public Payment(String guestId, int amountPaid, int roomRent, String paymentMethod, Date transactionDate, String transactionId, int paymentId, int dueAmount) {
-        this.guestId = guestId;
-        this.amountPaid = amountPaid;
-        this.roomRent = roomRent;
-        this.paymentMethod = paymentMethod;
-        this.transactionDate = transactionDate;
-        this.transactionId = transactionId;
-        this.paymentId = paymentId;
-        this.dueAmount = dueAmount;
-    }
+    private String occupancyType;
+    private Date transactionDate;
+    private double dueAmount;
+    private Date checkinDate;
 
     public Payment() {
+    }
+
+    public double getAmountPaid() {
+        return amountPaid;
+    }
+
+    public void setAmountPaid(double amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     public String getGuestId() {
@@ -38,28 +33,20 @@ public class Payment {
         this.guestId = guestId;
     }
 
-    public int getAmountPaid() {
-        return amountPaid;
+    public String getTransactionId() {
+        return transactionId;
     }
 
-    public void setAmountPaid(int amountPaid) {
-        this.amountPaid = amountPaid;
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 
-    public int getRoomRent() {
-        return roomRent;
+    public String getOccupancyType() {
+        return occupancyType;
     }
 
-    public void setRoomRent(int roomRent) {
-        this.roomRent = roomRent;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setOccupancyType(String occupancyType) {
+        this.occupancyType = occupancyType;
     }
 
     public Date getTransactionDate() {
@@ -70,27 +57,42 @@ public class Payment {
         this.transactionDate = transactionDate;
     }
 
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public int getPaymentId() {
-        return paymentId;
-    }
-
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
-    }
-
-    public int getDueAmount() {
+    public double getDueAmount() {
         return dueAmount;
     }
 
-    public void setDueAmount(int dueAmount) {
+    public void setDueAmount(double dueAmount) {
         this.dueAmount = dueAmount;
+    }
+
+    public Date getCheckinDate() {
+        return checkinDate;
+    }
+
+    public void setCheckinDate(Date checkinDate) {
+        this.checkinDate = checkinDate;
+    }
+
+    public Payment(double amountPaid, String guestId, String transactionId, String occupancyType, Date transactionDate, double dueAmount, Date checkinDate) {
+        this.amountPaid = amountPaid;
+        this.guestId = guestId;
+        this.transactionId = transactionId;
+        this.occupancyType = occupancyType;
+        this.transactionDate = transactionDate;
+        this.dueAmount = dueAmount;
+        this.checkinDate = checkinDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "amountPaid=" + amountPaid +
+                ", guestId='" + guestId + '\'' +
+                ", transactionId='" + transactionId + '\'' +
+                ", occupancyType='" + occupancyType + '\'' +
+                ", transactionDate=" + transactionDate +
+                ", dueAmount=" + dueAmount +
+                ", checkinDate=" + checkinDate +
+                '}';
     }
 }

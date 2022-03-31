@@ -5,7 +5,7 @@ import java.util.List;
 //import static java.text.NumberFormat.getCurrencyInstance;
 //import javax.persistence.Enumerated;
 
-import com.payment.model.Payment;
+import com.payment.entity.Payment;
 
 public interface PaymentService {
 
@@ -13,7 +13,7 @@ public interface PaymentService {
 	public List<Payment> getPayment();
 
 	// 2. Fetching Payment Details By Particular GuestId
-	public List<Payment> getPaymentByGuestId(String guestId);
+	public Payment getPaymentByGuestId(String guestId);
 
 //3.Fetching payments details by paymentId .
 	public Payment getPaymentById(int paymentId);

@@ -37,7 +37,7 @@ public class Guest implements Serializable {
     private String aadharNumber;
     private String buildingName;
     private String bedId;
-//    private double rentPaid;
+    private double dueAmount;
     private String addressLine1;
     private String addressLine2;
     private String pincode;
@@ -62,7 +62,7 @@ public class Guest implements Serializable {
     private java.util.Date checkInDate = new java.util.Date(System.currentTimeMillis());
     private boolean termsOfService;
 
-    public Guest(String id, String firstName, String lastName, String email, Date dateOfBirth, String personalNumber, String secondaryPhoneNumber, String fatherName, String fatherNumber, String localGuardianName, String localGuardianPhoneNumber, String bloodGroup, String occupation, String occupancyType, String gender, String aadharNumber, String buildingName, String bedId, String addressLine1, String addressLine2, String pincode, String city, String state, String workPhone, String workAddressLine1, String workAddressLine2, String transactionId, double amountPaid, String checkinNotes, java.util.Date transactionDate, java.util.Date checkInDate, boolean termsOfService) {
+    public Guest(String id, String firstName, String lastName, String email, Date dateOfBirth, String personalNumber, String secondaryPhoneNumber, String fatherName, String fatherNumber, String localGuardianName, String localGuardianPhoneNumber, String bloodGroup, String occupation, String occupancyType, String gender, String aadharNumber, String buildingName, String bedId, double dueAmount, String addressLine1, String addressLine2, String pincode, String city, String state, String workPhone, String workAddressLine1, String workAddressLine2, String transactionId, double amountPaid, String checkinNotes, java.util.Date transactionDate, java.util.Date checkInDate, boolean termsOfService) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -81,7 +81,7 @@ public class Guest implements Serializable {
         this.aadharNumber = aadharNumber;
         this.buildingName = buildingName;
         this.bedId = bedId;
-        //this.rentPaid = rentPaid;
+        this.dueAmount = dueAmount;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.pincode = pincode;
@@ -99,6 +99,14 @@ public class Guest implements Serializable {
     }
 
     public Guest() {
+    }
+
+    public void setAmountPaid(double amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+
+    public double getAmountPaid() {
+        return amountPaid;
     }
 
     public String getId() {
@@ -245,13 +253,13 @@ public class Guest implements Serializable {
         this.bedId = bedId;
     }
 
-//    public double getRentPaid() {
-//        return rentPaid;
-//    }
-//
-//    public void setRentPaid(double rentPaid) {
-//        this.rentPaid = rentPaid;
-//    }
+    public void setDueAmount(double dueAmount) {
+        this.dueAmount = dueAmount;
+    }
+
+    public double getDueAmount() {
+        return dueAmount;
+    }
 
     public String getAddressLine1() {
         return addressLine1;

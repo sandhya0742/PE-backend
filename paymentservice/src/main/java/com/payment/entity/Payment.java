@@ -1,17 +1,13 @@
-package com.payment.model;
+package com.payment.entity;
 
-import java.time.LocalDate;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.sql.Date;
 
 @Entity
 @Table(name = "payment")
@@ -24,34 +20,25 @@ public class Payment {
     private double dueAmount;
     private double amountPaid;
     private String transactionId;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
-    private java.util.Date transactionDate = new java.util.Date(System.currentTimeMillis());
-
-    LocalDate checkInDate;
-    private LocalDate checkOutDate;
+    //    @JsonFormat(pattern = "yyyy-MM-dd")
+//    LocalDate checkInDate;
+    private Date transactionDate;
+    private Date checkinDate;
+    private Date checkOutDate;
     private int remainder;
     private double newDuesAmount;
     private boolean onBoard;
+    private String paymentPurpose;
     // private double dueDuringOnBoard ;
     // private String occupancyType[] = { "Daily" , "Monthly" , "Regular" };
     private String occupancyType;
-    private double currentRent;
 
     // Fields taking reference from guest-Master Data .
-    private String bedId;
-    private double securityDeposit = 5000;
+    //    private double securityDeposit = 5000;
     private String guestId; // (f k) from guestId
-    double defaultRent;
+//    double defaultRent;
 
     //Getters and setters .
-    public double getDefaultRent() {
-        return defaultRent;
-    }
-
-    public void setDefaultRent(double defaultRent) {
-        this.defaultRent = defaultRent;
-    }
 
     public int getPaymentId() {
         return paymentId;
@@ -70,20 +57,11 @@ public class Payment {
     }
 
     public double getDueAmount() {
-        dueAmount = defaultRent + securityDeposit;
         return dueAmount;
     }
 
     public void setDueAmount(double dueAmount) {
         this.dueAmount = dueAmount;
-    }
-
-    public String getBedId() {
-        return bedId;
-    }
-
-    public void setBedId(String bedId) {
-        this.bedId = bedId;
     }
 
     public double getAmountPaid() {
@@ -102,35 +80,27 @@ public class Payment {
         this.transactionId = transactionId;
     }
 
-    public java.util.Date getTransactionDate() {
+    public Date getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(java.util.Date transactionDate) {
+    public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
     }
 
-    public String getGuestId() {
-        return guestId;
+    public Date getCheckinDate() {
+        return checkinDate;
     }
 
-    public void setGuestId(String guestId) {
-        this.guestId = guestId;
+    public void setCheckinDate(Date checkinDate) {
+        this.checkinDate = checkinDate;
     }
 
-    public LocalDate getCheckInDate() {
-        return checkInDate;
-    }
-
-    public void setCheckInDate(LocalDate checkInDate) {
-        this.checkInDate = checkInDate;
-    }
-
-    public LocalDate getCheckOutDate() {
+    public Date getCheckOutDate() {
         return checkOutDate;
     }
 
-    public void setCheckOutDate(LocalDate checkOutDate) {
+    public void setCheckOutDate(Date checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
 
@@ -158,12 +128,12 @@ public class Payment {
         this.onBoard = onBoard;
     }
 
-    public double getSecurityDeposit() {
-        return securityDeposit;
+    public String getPaymentPurpose() {
+        return paymentPurpose;
     }
 
-    public void setSecurityDeposit(double securityDeposit) {
-        this.securityDeposit = securityDeposit;
+    public void setPaymentPurpose(String paymentPurpose) {
+        this.paymentPurpose = paymentPurpose;
     }
 
     public String getOccupancyType() {
@@ -174,42 +144,53 @@ public class Payment {
         this.occupancyType = occupancyType;
     }
 
-    public double getCurrentRent() {
-        return currentRent;
+    public String getGuestId() {
+        return guestId;
     }
 
-    public void setCurrentRent(double currentRent) {
-        this.currentRent = currentRent;
+    public void setGuestId(String guestId) {
+        this.guestId = guestId;
     }
 
-    //Default constructor .
-    public Payment() {
-        super();
-    }
-
-    //Constructor using fields .
-    public Payment(int paymentId, String paymentMethod, double dueAmount, double amountPaid, String transactionId,
-                   Date transactionDate, String guestId, double defaultRent, LocalDate checkInDate, LocalDate checkOutDate,
-                   String occupancyType, int remainder, double newDuesAmount, boolean onBoard, double securityDeposit,
-                   double dueDuringOnBOard, double currentRent, String bedId) {
-        super();
+    public Payment(int paymentId, String paymentMethod, double dueAmount, double amountPaid, String transactionId, Date transactionDate, Date checkinDate, Date checkOutDate, int remainder, double newDuesAmount, boolean onBoard, String paymentPurpose, String occupancyType, String guestId) {
         this.paymentId = paymentId;
         this.paymentMethod = paymentMethod;
         this.dueAmount = dueAmount;
         this.amountPaid = amountPaid;
         this.transactionId = transactionId;
         this.transactionDate = transactionDate;
-        this.guestId = guestId;
-        this.defaultRent = defaultRent;
-        this.checkInDate = checkInDate;
+        this.checkinDate = checkinDate;
         this.checkOutDate = checkOutDate;
-        this.occupancyType = occupancyType;
         this.remainder = remainder;
         this.newDuesAmount = newDuesAmount;
         this.onBoard = onBoard;
-        this.currentRent = currentRent;
-        this.securityDeposit = securityDeposit;
-        this.bedId = bedId;
+        this.paymentPurpose = paymentPurpose;
+        this.occupancyType = occupancyType;
+        //this.bedId = bedId;
+        this.guestId = guestId;
+    }
+
+    public Payment() {
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "paymentId=" + paymentId +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", dueAmount=" + dueAmount +
+                ", amountPaid=" + amountPaid +
+                ", transactionId='" + transactionId + '\'' +
+                ", transactionDate=" + transactionDate +
+                ", checkinDate=" + checkinDate +
+                ", checkOutDate=" + checkOutDate +
+                ", remainder=" + remainder +
+                ", newDuesAmount=" + newDuesAmount +
+                ", onBoard=" + onBoard +
+                ", paymentPurpose='" + paymentPurpose + '\'' +
+                ", occupancyType='" + occupancyType + '\'' +
+                ", guestId='" + guestId + '\'' +
+                '}';
     }
 
     /*

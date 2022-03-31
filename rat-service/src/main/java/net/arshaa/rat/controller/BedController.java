@@ -296,12 +296,13 @@ public class BedController {
         Bed getBed = bedrepo.findByBedId(bed.getBedId());
         getBed.setGuestId(bed.getGuestId());
         getBed.setBedId(bed.getBedId());
+        getBed.setDueAmount(bed.getDueAmount());
         getBed.setBedStatus(!getBed.isBedStatus());
         bedrepo.save(getBed);
     }
 
 
-//GET API FOR GETTING THE COUNT OF TOTAL BEDS AND OCCUPIED BEDS FOR RAT PIE CHART FOR ALL BUILDINGS
+//GET API FOR GETTING THE COUNT OF TOTAL BEDS AND /CCUPIED BEDS FOR RAT PIE CHART FOR ALL BUILDINGS
 
     @GetMapping(path = "/getBedSummaryForPieChartByAllBuildings")
     public ResponseEntity<List<NewBuildModel>> getAvailableBedsByBuilding() {
@@ -361,6 +362,5 @@ public class BedController {
         Bed getBed = bedrepo.findByBedId(bedId);
         return getBed;
     }
-
 
 }

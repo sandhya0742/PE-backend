@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.payment.model.Payment;
+import com.payment.entity.Payment;
 import com.payment.service.PaymentService;
 
 @RestController
@@ -50,8 +50,8 @@ public class PayCOntroller {
     }
 
     // GET THE TRANSACTION HISTORY BASED ON GUESTID .
-    @GetMapping("/getTransactionHistoryByGuestId/{guestId}")
-    public List<Payment> findByGuestId(@PathVariable String guestId) {
+    @GetMapping("/getPaymentByGuestId/{guestId}")
+    public Payment findByGuestId(@PathVariable String guestId) {
         return this.serve.getPaymentByGuestId(guestId);
     }
 
