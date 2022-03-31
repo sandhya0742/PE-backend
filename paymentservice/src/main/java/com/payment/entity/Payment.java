@@ -16,7 +16,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int paymentId;
-    private String paymentMethod;
+    //private String paymentMethod;
     private double dueAmount;
     private double amountPaid;
     private String transactionId;
@@ -24,9 +24,9 @@ public class Payment {
 //    LocalDate checkInDate;
     private Date transactionDate;
     private Date checkinDate;
-    private Date checkOutDate;
-    private int remainder;
-    private double newDuesAmount;
+    //private Date checkOutDate;
+    //private int remainder;
+    //private double newDuesAmount;
     private boolean onBoard;
     private String paymentPurpose;
     // private double dueDuringOnBoard ;
@@ -48,13 +48,13 @@ public class Payment {
         this.paymentId = paymentId;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
+//    public String getPaymentMethod() {
+//        return paymentMethod;
+//    }
+//
+//    public void setPaymentMethod(String paymentMethod) {
+//        this.paymentMethod = paymentMethod;
+//    }
 
     public double getDueAmount() {
         return dueAmount;
@@ -96,29 +96,29 @@ public class Payment {
         this.checkinDate = checkinDate;
     }
 
-    public Date getCheckOutDate() {
-        return checkOutDate;
-    }
+//    public Date getCheckOutDate() {
+//        return checkOutDate;
+//    }
+//
+//    public void setCheckOutDate(Date checkOutDate) {
+//        this.checkOutDate = checkOutDate;
+//    }
+//
+//    public int getRemainder() {
+//        return remainder;
+//    }
+//
+//    public void setRemainder(int remainder) {
+//        this.remainder = remainder;
+//    }
 
-    public void setCheckOutDate(Date checkOutDate) {
-        this.checkOutDate = checkOutDate;
-    }
-
-    public int getRemainder() {
-        return remainder;
-    }
-
-    public void setRemainder(int remainder) {
-        this.remainder = remainder;
-    }
-
-    public double getNewDuesAmount() {
-        return newDuesAmount;
-    }
-
-    public void setNewDuesAmount(double newDuesAmount) {
-        this.newDuesAmount = newDuesAmount;
-    }
+//    public double getNewDuesAmount() {
+//        return newDuesAmount;
+//    }
+//
+//    public void setNewDuesAmount(double newDuesAmount) {
+//        this.newDuesAmount = newDuesAmount;
+//    }
 
     public boolean isOnBoard() {
         return onBoard;
@@ -152,24 +152,6 @@ public class Payment {
         this.guestId = guestId;
     }
 
-    public Payment(int paymentId, String paymentMethod, double dueAmount, double amountPaid, String transactionId, Date transactionDate, Date checkinDate, Date checkOutDate, int remainder, double newDuesAmount, boolean onBoard, String paymentPurpose, String occupancyType, String guestId) {
-        this.paymentId = paymentId;
-        this.paymentMethod = paymentMethod;
-        this.dueAmount = dueAmount;
-        this.amountPaid = amountPaid;
-        this.transactionId = transactionId;
-        this.transactionDate = transactionDate;
-        this.checkinDate = checkinDate;
-        this.checkOutDate = checkOutDate;
-        this.remainder = remainder;
-        this.newDuesAmount = newDuesAmount;
-        this.onBoard = onBoard;
-        this.paymentPurpose = paymentPurpose;
-        this.occupancyType = occupancyType;
-        //this.bedId = bedId;
-        this.guestId = guestId;
-    }
-
     public Payment() {
     }
 
@@ -177,15 +159,11 @@ public class Payment {
     public String toString() {
         return "Payment{" +
                 "paymentId=" + paymentId +
-                ", paymentMethod='" + paymentMethod + '\'' +
                 ", dueAmount=" + dueAmount +
                 ", amountPaid=" + amountPaid +
                 ", transactionId='" + transactionId + '\'' +
                 ", transactionDate=" + transactionDate +
                 ", checkinDate=" + checkinDate +
-                ", checkOutDate=" + checkOutDate +
-                ", remainder=" + remainder +
-                ", newDuesAmount=" + newDuesAmount +
                 ", onBoard=" + onBoard +
                 ", paymentPurpose='" + paymentPurpose + '\'' +
                 ", occupancyType='" + occupancyType + '\'' +

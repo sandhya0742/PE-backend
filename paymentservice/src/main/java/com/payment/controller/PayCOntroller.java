@@ -2,6 +2,7 @@ package com.payment.controller;
 
 import java.util.List;
 
+import com.payment.repos.PayRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,9 @@ public class PayCOntroller {
 
     @Autowired
     private PaymentService serve;
+
+    @Autowired
+    private PayRepos repos;
 
     //http://localhost:8989/payment/addPaymentAtOnBoarding
 //ADDING PAYMENT AT ONBOARDING TIME .
@@ -67,5 +71,10 @@ public class PayCOntroller {
     public Payment addPaymentAfterOnBoar(@RequestBody Payment payment) {
 
         return this.serve.addPaymentAfterOnBoar(payment);
+    }
+
+    @GetMapping("/getPaymentsByGuestId/{guestId}")
+    public List<Payment> findTransactionsByGuestId(@PathVariable String guestId){
+        return repos.findPaymentByGuestId(guestId);
     }
 }

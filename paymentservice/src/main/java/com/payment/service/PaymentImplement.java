@@ -43,9 +43,9 @@ public class PaymentImplement implements PaymentService {
 		pay.setDueAmount(payment.getDueAmount());
 		//pay.setDefaultRent(payment.getDefaultRent());
 
-		pay.setPaymentMethod(payment.getPaymentMethod());
+		//pay.setPaymentMethod(payment.getPaymentMethod());
 //		pay.setSecurityDeposit(payment.getSecurityDeposit());
-		pay.setNewDuesAmount(payment.getNewDuesAmount());
+		//pay.setNewDuesAmount(payment.getNewDuesAmount());
 		return repo.save(pay);
 	}
 
@@ -62,6 +62,7 @@ public class PaymentImplement implements PaymentService {
 		firstPay.setAmountPaid(payment.getAmountPaid());
 		firstPay.setDueAmount(payment.getDueAmount());
 		firstPay.setCheckinDate(payment.getCheckinDate());
+		firstPay.setPaymentPurpose(payment.getPaymentPurpose());
 
 //		int remainder = payment.getRemainder();
 //		firstPay.setRemainder(remainder);
@@ -92,13 +93,6 @@ public class PaymentImplement implements PaymentService {
 		return repo.save(firstPay);
 	}
 
-//5.Fetching Payment Details By  Particular GuestId
-//	@Override
-//	public List<Payment> getPaymentByGuestId(String guestId) {
-//		// TODO Auto-generated method stub
-//		return repo.findAll();
-//
-//	}
 
 	public Payment getPaymentByGuestId(String guestId){
 		Payment responsePay = repo.findByGuestId(guestId);
