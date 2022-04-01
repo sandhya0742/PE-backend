@@ -68,7 +68,7 @@ public class PaymentImplement implements PaymentService {
             firstPay.setOccupancyType(payment.getOccupancyType());
             firstPay.setTransactionDate(payment.getTransactionDate());
             firstPay.setAmountPaid(payment.getAmountPaid());
-            if (firstPay.getAmountPaid()>0){
+            if (firstPay.getAmountPaid() > 0) {
                 firstPay.setOnBoard(true);
             }
             //firstPay.setDueAmount(payment.getDueAmount());
@@ -133,6 +133,8 @@ public class PaymentImplement implements PaymentService {
             secondpay.setTransactionId(payment.getTransactionId());
             secondpay.setPaymentPurpose(payment.getPaymentPurpose());
             secondpay.setGuestId(payment.getGuestId());
+            java.sql.Date tSqlDate = new java.sql.Date(payment.getTransactionDate().getTime());
+            payment.setTransactionDate(tSqlDate);
             repo.save(secondpay);
             guest.setId(secondpay.getGuestId());
             guest.setDueAmount(secondpay.getDueAmount());
