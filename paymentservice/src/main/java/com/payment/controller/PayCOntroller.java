@@ -69,8 +69,7 @@ public class PayCOntroller {
     //POSTING INFORMATION OF PAYMENT BASED ON GUEST TYPE .
     @PostMapping("/addAfterOnBoard")
     public Payment addPaymentAfterOnBoar(@RequestBody Payment payment) {
-
-        return this.serve.addPaymentAfterOnBoar(payment);
+        return this.serve.addPaymentAfterOnBoard(payment);
     }
 
     @GetMapping("/getPaymentsByGuestId/{guestId}")

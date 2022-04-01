@@ -37,6 +37,7 @@ public class Guest implements Serializable {
     private String aadharNumber;
     private String buildingName;
     private String bedId;
+    //private int duration;
     private double dueAmount;
     private String addressLine1;
     private String addressLine2;
@@ -47,6 +48,7 @@ public class Guest implements Serializable {
     private String workAddressLine1;
     private String workAddressLine2;
     private String transactionId;
+    private String paymentPurpose;
     //    @JsonFormat(pattern = "yyyy-MM-dd")
 //    private Date checkIenDate;
 //    @JsonFormat(pattern = "yyyy-MM-dd")
@@ -253,6 +255,14 @@ public class Guest implements Serializable {
         this.bedId = bedId;
     }
 
+//    public int getDuration() {
+//        return duration;
+//    }
+//
+//    public void setDuration(int duration) {
+//        this.duration = duration;
+//    }
+
     public void setDueAmount(double dueAmount) {
         this.dueAmount = dueAmount;
     }
@@ -355,6 +365,15 @@ public class Guest implements Serializable {
 
     public void setTransactionDate(java.util.Date transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+
+    public String getPaymentPurpose() {
+        return paymentPurpose;
+    }
+
+    public void setPaymentPurpose(String paymentPurpose) {
+        this.paymentPurpose = paymentPurpose;
     }
 
     public java.util.Date getCheckInDate() {

@@ -13,8 +13,17 @@ public class Payment {
     private Date transactionDate;
     private double dueAmount;
     private Date checkinDate;
+    private String paymentPurpose;
 
     public Payment() {
+    }
+
+    public void setPaymentPurpose(String paymentPurpose) {
+        this.paymentPurpose = paymentPurpose;
+    }
+
+    public String getPaymentPurpose() {
+        return paymentPurpose;
     }
 
     public double getAmountPaid() {
@@ -73,7 +82,7 @@ public class Payment {
         this.checkinDate = checkinDate;
     }
 
-    public Payment(double amountPaid, String guestId, String transactionId, String occupancyType, Date transactionDate, double dueAmount, Date checkinDate) {
+    public Payment(double amountPaid, String guestId, String transactionId, String occupancyType, Date transactionDate, double dueAmount, Date checkinDate, String paymentPurpose) {
         this.amountPaid = amountPaid;
         this.guestId = guestId;
         this.transactionId = transactionId;
@@ -81,6 +90,7 @@ public class Payment {
         this.transactionDate = transactionDate;
         this.dueAmount = dueAmount;
         this.checkinDate = checkinDate;
+        this.paymentPurpose = paymentPurpose;
     }
 
     @Override
@@ -93,6 +103,7 @@ public class Payment {
                 ", transactionDate=" + transactionDate +
                 ", dueAmount=" + dueAmount +
                 ", checkinDate=" + checkinDate +
+                ", paymentPurpose='" + paymentPurpose + '\'' +
                 '}';
     }
 }

@@ -1,11 +1,7 @@
 package com.payment.entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.sql.Date;
 
@@ -22,7 +18,8 @@ public class Payment {
     private String transactionId;
     //    @JsonFormat(pattern = "yyyy-MM-dd")
 //    LocalDate checkInDate;
-    private Date transactionDate;
+    @Temporal(TemporalType.DATE)
+    private Date transactionDate = new Date(System.currentTimeMillis());
     private Date checkinDate;
     //private Date checkOutDate;
     //private int remainder;

@@ -9,7 +9,6 @@ public class Bed {
 
     private String bedId;
     private String guestId;
-    private double dueAmount;
 
     public Bed() {
     }
@@ -30,11 +29,11 @@ public class Bed {
         this.guestId = guestId;
     }
 
-    public double getDueAmount() {
-        return dueAmount;
-    }
-
-    public void setDueAmount(double dueAmount) {
-        this.dueAmount = dueAmount;
-    }
+//    public double getDueAmount() {
+//        return dueAmount;
+//    }
+//
+//    public void setDueAmount(double dueAmount) {
+//        this.dueAmount = dueAmount;
+//    }
 }

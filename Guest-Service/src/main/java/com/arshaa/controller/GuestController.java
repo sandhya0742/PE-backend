@@ -39,4 +39,9 @@ public class GuestController {
         service.deleteGuest(id);
     }
 
+    @PutMapping("/updateDueAmount")
+    public double updateDueAmount(@RequestBody Guest guest) {
+        return service.updateGuest(guest);
+    }
+
 }

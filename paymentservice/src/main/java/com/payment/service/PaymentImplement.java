@@ -1,68 +1,83 @@
 package com.payment.service;
 
+import com.payment.common.Guest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.payment.entity.Payment;
 import com.payment.repos.PayRepos;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class PaymentImplement implements PaymentService {
 
-	// Autowiring the Payment Repository extending JPA Repository .
-	@Autowired
-	private PayRepos repo;
+    // Autowiring the Payment Repository extending JPA Repository .
+    @Autowired
+    private PayRepos repo;
 
-	Logger log = LoggerFactory.getLogger(PaymentImplement.class);
+    @Autowired
+    @Lazy
+    private RestTemplate template;
 
-//1.Method to fetching the List<>  payment details .	
-	@Override
-	public List<Payment> getPayment() {
-		return repo.findAll();
-	}
+    Logger log = LoggerFactory.getLogger(PaymentImplement.class);
 
-//2.Method to fetch payment details of one Particular Guest By PaymentId .
-	@Override
-	public Payment getPaymentById(int paymentId) {
-		// TODO Auto-generated method stub
+    //1.Method to fetching the List<>  payment details .
+    @Override
+    public List<Payment> getPayment() {
+        return repo.findAll();
+    }
 
-		return repo.findById(paymentId).orElse(null);
-	}
+    //2.Method to fetch payment details of one Particular Guest By PaymentId .
+    @Override
+    public Payment getPaymentById(int paymentId) {
+        // TODO Auto-generated method stub
 
-//3.Method to Updating data of payment history by manager .
-	@Override
-	public Payment updatePayment(Payment payment) {
-		// TODO Auto-generated method stub
-		Payment pay = repo.findById(payment.getPaymentId()).orElse(null);
-		pay.setAmountPaid(payment.getAmountPaid());
-		// pay.setDefaultRent(payment.getDefaultRent());
-		pay.setDueAmount(payment.getDueAmount());
-		//pay.setDefaultRent(payment.getDefaultRent());
+        return repo.findById(paymentId).orElse(null);
+    }
 
-		//pay.setPaymentMethod(payment.getPaymentMethod());
+    //3.Method to Updating data of payment history by manager .
+    @Override
+    public Payment updatePayment(Payment payment) {
+        // TODO Auto-generated method stub
+        Payment pay = repo.findById(payment.getPaymentId()).orElse(null);
+        pay.setAmountPaid(payment.getAmountPaid());
+        // pay.setDefaultRent(payment.getDefaultRent());
+        pay.setDueAmount(payment.getDueAmount());
+        //pay.setDefaultRent(payment.getDefaultRent());
+
+        //pay.setPaymentMethod(payment.getPaymentMethod());
 //		pay.setSecurityDeposit(payment.getSecurityDeposit());
-		//pay.setNewDuesAmount(payment.getNewDuesAmount());
-		return repo.save(pay);
-	}
+        //pay.setNewDuesAmount(payment.getNewDuesAmount());
+        return repo.save(pay);
+    }
 
-//4.Method to Call at the time when user is OnBoarding .
-	@Override
-	public Payment addPayment(Payment payment) {
-		// TODO Auto-generated method stub
-		Payment firstPay = new Payment();
-
-		firstPay.setTransactionId(payment.getTransactionId());
-		firstPay.setGuestId(payment.getGuestId());
-		firstPay.setOccupancyType(payment.getOccupancyType());
-		firstPay.setTransactionDate(payment.getTransactionDate());
-		firstPay.setAmountPaid(payment.getAmountPaid());
-		firstPay.setDueAmount(payment.getDueAmount());
-		firstPay.setCheckinDate(payment.getCheckinDate());
-		firstPay.setPaymentPurpose(payment.getPaymentPurpose());
+    //4.Method to Call at the time when user is OnBoarding .
+    @Override
+    public Payment addPayment(Payment payment) {
+        // TODO Auto-generated method stub
+        Payment firstPay = new Payment();
+        try {
+            firstPay.setTransactionId(payment.getTransactionId());
+            firstPay.setGuestId(payment.getGuestId());
+            firstPay.setOccupancyType(payment.getOccupancyType());
+            firstPay.setTransactionDate(payment.getTransactionDate());
+            firstPay.setAmountPaid(payment.getAmountPaid());
+            if (firstPay.getAmountPaid()>0){
+                firstPay.setOnBoard(true);
+            }
+            //firstPay.setDueAmount(payment.getDueAmount());
+            firstPay.setCheckinDate(payment.getCheckinDate());
+            //firstPay.setPaymentPurpose(payment.getPaymentPurpose());
+            return repo.save(firstPay);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 //		int remainder = payment.getRemainder();
 //		firstPay.setRemainder(remainder);
@@ -90,54 +105,43 @@ public class PaymentImplement implements PaymentService {
 //			payment.setNewDuesAmount(newDuesAmount);
 //		}
 
-		return repo.save(firstPay);
-	}
+        return null;
+    }
 
 
-	public Payment getPaymentByGuestId(String guestId){
-		Payment responsePay = repo.findByGuestId(guestId);
-		return responsePay;
-	}
+    public Payment getPaymentByGuestId(String guestId) {
+        Payment responsePay = repo.findByGuestId(guestId);
+        return responsePay;
+    }
 
-//6.Getting the dues Of particular Guest based on their id .
-	@Override
-	public double getDueAmountByGuestId(String guestId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    //6.Getting the dues Of particular Guest based on their id .
+    @Override
+    public double getDueAmountByGuestId(String guestId) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-//7.Posting the data of Guest After onBOarding .
-	@Override
-	public Payment addPaymentAfterOnBoar(Payment payment) {
-//		// Creating object of class Payment(Model).
-//		Payment payments = new Payment();
-//		// double dueAmount = payment.getDueAmount();
-//		// payments.setDueAmount(dueAmount);
-//		boolean onBoard = payment.isOnBoard();
-//		payments.setOnBoard(onBoard);
-//		double amountPaid = payment.getAmountPaid();
-//		payments.setAmountPaid(amountPaid);
-//		double currentRent = payment.getCurrentRent();
-//		payments.setCurrentRent(currentRent);
-//		double newDuesAmount = payment.getNewDuesAmount();
-//		payments.setNewDuesAmount(newDuesAmount);
-//		double defaultRent = payment.getDefaultRent();
-//		payments.setDefaultRent(defaultRent);
-//		// amountPaid = defaultRent + newDuesAmount;
-//
-//		// currentRent = defaultRent + newDuesAmount ;
-//		if (onBoard == true && amountPaid == currentRent) {
-//
-//			currentRent = defaultRent + newDuesAmount;
-//			payment.setCurrentRent(currentRent);
-//		} else if (onBoard == true && amountPaid != currentRent) {
-//
-//			currentRent = defaultRent + newDuesAmount;
-//			newDuesAmount = currentRent - amountPaid;
-//		}
-
-		repo.save(payment);
-		return payment;
-	}
+    //7.Posting the data of Guest After onBOarding .
+    @Override
+    public Payment addPaymentAfterOnBoard(Payment payment) {
+        String uri = "http://guestService/guest/updateDueAmount";
+        Guest guest = new Guest();
+        Payment secondpay = new Payment();
+        try {
+            secondpay.setAmountPaid(payment.getAmountPaid());
+            //secondpay.setDueAmount(payment.getDueAmount());
+            secondpay.setTransactionId(payment.getTransactionId());
+            secondpay.setPaymentPurpose(payment.getPaymentPurpose());
+            secondpay.setGuestId(payment.getGuestId());
+            repo.save(secondpay);
+            guest.setId(secondpay.getGuestId());
+            guest.setDueAmount(secondpay.getDueAmount());
+            template.put(uri, guest, Guest.class);
+            return secondpay;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

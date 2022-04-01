@@ -41,14 +41,14 @@ public class GuestService implements GuestInterface {
         guest.setTransactionDate(tSqlDate);
         java.sql.Date cSqlDate = new java.sql.Date(guest.getCheckInDate().getTime());
         guest.setCheckInDate(cSqlDate);
-        guest.setDueAmount(guest.getDueAmount() - guest.getAmountPaid());
+        //guest.setDueAmount(guest.getDueAmount() - guest.getAmountPaid());
         repository.save(guest);
         Bed bedReq = new Bed();
         Payment payReq = new Payment();
         //bed setting
         bedReq.setBedId(guest.getBedId());
         bedReq.setGuestId(guest.getId());
-        bedReq.setDueAmount(guest.getDueAmount());
+        //bedReq.setDueAmount(guest.getDueAmount());
         template.put(bedUri, bedReq, Bed.class);
         //payment setting
         payReq.setGuestId(guest.getId());
@@ -57,17 +57,19 @@ public class GuestService implements GuestInterface {
         payReq.setTransactionDate(tSqlDate);
         payReq.setCheckinDate(cSqlDate);
         payReq.setAmountPaid(guest.getAmountPaid());
-        payReq.setDueAmount(guest.getDueAmount());
+       // payReq.setDueAmount(guest.getDueAmount());
+        //payReq.setPaymentPurpose(guest.getPaymentPurpose());
         Payment parRes = template.postForObject(payUri, payReq, Payment.class);
         System.out.println(parRes);
         return guest;
     }
 
     @Override
-    public Guest updateGuest(String guestId) {
-        Guest newGuest = repository.findById(guestId);
-//         newGuest.setFirstName();
-        return null;
+    public double updateGuest(Guest guest) {
+        Guest newGuest = repository.findById(guest.getId());
+        newGuest.setDueAmount(guest.getDueAmount());
+        repository.save(newGuest);
+        return newGuest.getDueAmount();
     }
 
     @Override

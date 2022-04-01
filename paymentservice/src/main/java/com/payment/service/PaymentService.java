@@ -28,7 +28,7 @@ public interface PaymentService {
 	public double getDueAmountByGuestId(String guestId);
 
 //7.Posting the data of Guest After onBOarding .
-	public Payment addPaymentAfterOnBoar(Payment payment);
+	public Payment addPaymentAfterOnBoard(Payment payment);
 
 	// double getDailyRent() ;
 

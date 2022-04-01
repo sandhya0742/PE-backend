@@ -14,7 +14,7 @@ public interface GuestInterface {
 
     public Guest addGuest(Guest guest) ;
 
-    public Guest updateGuest(String guestId);
+    public double updateGuest(Guest guest);
 
     public void deleteGuest(String guestId);
 }
