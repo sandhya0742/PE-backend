@@ -72,7 +72,7 @@ public class PayCOntroller {
         return this.serve.addPaymentAfterOnBoard(payment);
     }
 
-    @GetMapping("/getPaymentsByGuestId/{guestId}")
+    @GetMapping("/getTrasactionHistoryByGuestId/{guestId}")
     public List<Payment> findTransactionsByGuestId(@PathVariable String guestId){
         return repos.findPaymentByGuestId(guestId);
     }

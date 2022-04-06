@@ -10,7 +10,7 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int paymentId;
+    private int id;
     //private String paymentMethod;
     private double dueAmount;
     private double amountPaid;
@@ -37,11 +37,11 @@ public class Payment {
     //Getters and setters .
 
     public int getPaymentId() {
-        return paymentId;
+        return id;
     }
 
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
+    public void setPaymentId(int id) {
+        this.id = id;
     }
 
 //    public String getPaymentMethod() {
@@ -154,7 +154,7 @@ public class Payment {
     @Override
     public String toString() {
         return "Payment{" +
-                "paymentId=" + paymentId +
+                "id=" + id +
                 ", dueAmount=" + dueAmount +
                 ", amountPaid=" + amountPaid +
                 ", transactionId='" + transactionId + '\'' +
