@@ -1,18 +1,17 @@
 package net.arshaa.rat.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-import net.arshaa.rat.entity.Bed;
+import net.arshaa.rat.entity.Beds;
 
 
-public interface BedSummaryRepo extends JpaRepository<Bed, Integer> {
+public interface BedSummaryRepo extends JpaRepository<Beds, Integer> {
 
-    List<Bed> findByBuildingIdAndBedStatus(int building_id, boolean b);
+    List<Beds> findByBuildingIdAndBedStatus(int building_id, boolean b);
 
 
 }
