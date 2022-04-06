@@ -1,14 +1,9 @@
 package net.arshaa.rat.entity;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.*;
 
 @Entity
-	public class Building {
+	public class Buildings {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int building_id;
@@ -26,13 +21,13 @@ import javax.persistence.*;
 	public void setBuilding_name(String building_name) {
 		this.building_name = building_name;
 	}
-	public Building(int building_id, String building_name) {
+	public Buildings(int building_id, String building_name) {
 		super();
 		this.building_id = building_id;
 		this.building_name = building_name;
 
 	}
-	public Building() {
+	public Buildings() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

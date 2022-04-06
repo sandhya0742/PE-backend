@@ -5,13 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.springframework.beans.factory.annotation.Value;
 //import javax.persistence.JoinColumn;
 //import javax.persistence.ManyToOne;
 
 @Entity
-public class Bed {
+public class Beds {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -38,7 +36,7 @@ public class Bed {
     private double securityDeposit;
     
     
-	public Bed() {
+	public Beds() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -114,8 +112,8 @@ public class Bed {
 	public void setSecurityDeposit(double securityDeposit) {
 		this.securityDeposit = securityDeposit;
 	}
-	public Bed(int id, String bedId, int roomId, int floorId, int buildingId, String buildingName, boolean bedStatus,
-			String guestId, String bedName, double defaultRent, boolean ac, double securityDeposit) {
+	public Beds(int id, String bedId, int roomId, int floorId, int buildingId, String buildingName, boolean bedStatus,
+				String guestId, String bedName, double defaultRent, boolean ac, double securityDeposit) {
 		super();
 		this.id = id;
 		this.bedId = bedId;
@@ -130,7 +128,7 @@ public class Bed {
 		this.ac = ac;
 		this.securityDeposit = securityDeposit;
 	}
-	public Bed orElseThrow(Object object) {
+	public Beds orElseThrow(Object object) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -5,21 +5,21 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import net.arshaa.rat.entity.Bed;
+import net.arshaa.rat.entity.Beds;
 
-public interface BedRepository extends JpaRepository<Bed, Integer>{
+public interface BedRepository extends JpaRepository<Beds, Integer>{
 
-    Optional<List<Bed>> findByroomId(Integer id);
+    Optional<List<Beds>> findByroomId(Integer id);
     //List<Bed> findBybuildingId(Integer id);
-    List<Bed> findByBedStatus(Boolean status);
+    List<Beds> findByBedStatus(Boolean status);
     //List<Bed> findByBedStatusandId(int id, Boolean status);
-    Optional<List<Bed>> findByroomIdAndBedStatus(int roomId, boolean b);
-    Optional<List<Bed>> findBybuildingIdAndBedStatus(int building_id, boolean b);
+    Optional<List<Beds>> findByroomIdAndBedStatus(int roomId, boolean b);
+    Optional<List<Beds>> findBybuildingIdAndBedStatus(int building_id, boolean b);
     //List<Bed> findByBedStatusAndbuildingId(boolean b, int building_id);
-    Bed findByBedId(String bedId);
-    Bed getBedByBuildingId(int buildingId);
+    Beds findByBedId(String bedId);
+    Beds getBedByBuildingId(int buildingId);
 
-    List<Bed> findAllByBuildingId(int buildingId);
+    List<Beds> findAllByBuildingId(int buildingId);
 
 
 }

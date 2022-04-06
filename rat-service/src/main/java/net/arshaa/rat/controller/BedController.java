@@ -1,9 +1,7 @@
 package net.arshaa.rat.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import Models.BedSummary;
 import Models.BedsCount;
 import Models.BedsInfo;
 import Models.BuildingInfo;
@@ -20,10 +17,10 @@ import Models.BuildingModel;
 import Models.FloorsInfo;
 import Models.NewBuildModel;
 import Models.RoomsInfo;
-import net.arshaa.rat.entity.Bed;
-import net.arshaa.rat.entity.Building;
-import net.arshaa.rat.entity.Floor;
-import net.arshaa.rat.entity.Room;
+import net.arshaa.rat.entity.Beds;
+import net.arshaa.rat.entity.Buildings;
+import net.arshaa.rat.entity.Floors;
+import net.arshaa.rat.entity.Rooms;
 import net.arshaa.rat.repository.BedRepository;
 import net.arshaa.rat.repository.BedSummaryRepo;
 import net.arshaa.rat.repository.FloorRepository;
@@ -67,10 +64,10 @@ public class BedController {
 // Post API to add Bed by id
 
 	@PostMapping(path = "/addBed")
-	public ResponseEntity<Bed> addBed(@RequestBody Bed newBed) {
+	public ResponseEntity<Beds> addBed(@RequestBody Beds newBed) {
 
 		try {
-			Bed bed = bedrepo.save(newBed);
+			Beds bed = bedrepo.save(newBed);
 
 			return new ResponseEntity("Bed Added Successfully", HttpStatus.OK);
 		} catch (Exception e) {
@@ -82,9 +79,9 @@ public class BedController {
 // APi to update bed by id
 
 	@PutMapping("/updateBedById/{id}")
-	public ResponseEntity<Bed> updateBed(@PathVariable int id, @RequestBody Bed bedDetails) {
+	public ResponseEntity<Beds> updateBed(@PathVariable int id, @RequestBody Beds bedDetails) {
 		try {
-			Bed bed = bedrepo.getById(id);
+			Beds bed = bedrepo.getById(id);
 
 			bed.setAc(bedDetails.isAc());
 			bed.setBedId(bedDetails.getBedId());
@@ -97,7 +94,7 @@ public class BedController {
 			bed.setGuestId(bedDetails.getGuestId());
 			bed.setRoomId(bedDetails.getRoomId());
 			bed.setSecurityDeposit(bedDetails.getSecurityDeposit());
-			Bed updatedBed = bedrepo.save(bed);
+			Beds updatedBed = bedrepo.save(bed);
 			return new ResponseEntity("Bed Updated Successfully", HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity("Something went wrong can't able to update", HttpStatus.ALREADY_REPORTED);
@@ -106,8 +103,8 @@ public class BedController {
 	}
 // Api  to delete bed by id
 
-	@DeleteMapping("/deleteBed/{id}")
-	public ResponseEntity<String> deleteEmployee(@PathVariable int id) {
+	@DeleteMapping("/deleteBedByBedId/{id}")
+	public ResponseEntity<String> deleteBed(@PathVariable int id) {
 
 		try {
 			bedrepo.deleteById(id);
@@ -121,9 +118,9 @@ public class BedController {
 
 // Api to get beddata		
 	@GetMapping("/getAllBeds")
-	public ResponseEntity<List<Bed>> getAllBeds() {
+	public ResponseEntity<List<Beds>> getAllBeds() {
 		try {
-			List<Bed> bed = bedrepo.findAll();
+			List<Beds> bed = bedrepo.findAll();
 
 			return new ResponseEntity<>(bed, HttpStatus.OK);
 		} catch (Exception e) {
@@ -135,8 +132,8 @@ public class BedController {
 // Api to get the count of all beds
 	@GetMapping("/getAllBedsCount")
 	public ResponseEntity<Integer> getAllBedsCount() {
-		List<Bed> bed = bedrepo.findAll();
-		List<Bed> bedsCount=bedrepo.findByBedStatus(true);
+		List<Beds> bed = bedrepo.findAll();
+		List<Beds> bedsCount=bedrepo.findByBedStatus(true);
 		int bedCount = bed.size();
 		int availableBedsCount=bedsCount.size();
 		BedsCount bs=new BedsCount();
@@ -146,9 +143,9 @@ public class BedController {
 	}
 	
 	@GetMapping("/getAvailableBeds")
-	public ResponseEntity<List<Bed>>getAllAvailableBeds(){
+	public ResponseEntity<List<Beds>>getAllAvailableBeds(){
 		try {
-			List<Bed> bedList=bedrepo.findByBedStatus(true);
+			List<Beds> bedList=bedrepo.findByBedStatus(true);
 			//Bed bed=new Bed();
 			
 			return new ResponseEntity<>( bedList,HttpStatus.OK);
@@ -165,28 +162,28 @@ public class BedController {
 	public ResponseEntity<List<BuildingInfo>> getBedsByBuildings() {
 		try {
 			List<BuildingInfo> info = new ArrayList<>();
-			List<Building> getBuildings = buildingRepo.findAll();
+			List<Buildings> getBuildings = buildingRepo.findAll();
 			if (!getBuildings.isEmpty()) {
 				getBuildings.forEach(building -> {
 					BuildingInfo newBuild = new BuildingInfo();
-					Optional<Building> getBuilding = buildingRepo.findById(building.getBuilding_id());
+					Optional<Buildings> getBuilding = buildingRepo.findById(building.getBuilding_id());
 					if (getBuilding.isPresent()) {
 						newBuild.setBuildingName(getBuilding.get().getBuilding_name());
 						List<FloorsInfo> floorsList = new ArrayList<>();
-						Optional<List<Floor>> getFloors = floorRepo
+						Optional<List<Floors>> getFloors = floorRepo
 								.findByBuildingId(getBuilding.get().getBuilding_id());
 						if (getFloors.isPresent()) {
 							getFloors.get().forEach(floor -> {
 								FloorsInfo newFloor = new FloorsInfo();
 								newFloor.setFloorName(floor.getFloorName());
 								List<RoomsInfo> roomList = new ArrayList<>();
-								Optional<List<Room>> getRooms = roomRepo.findByFloorId(floor.getFloorId());
+								Optional<List<Rooms>> getRooms = roomRepo.findByFloorId(floor.getFloorId());
 								if (getRooms.isPresent()) {
 									getRooms.get().forEach(room -> {
 										RoomsInfo newRoom = new RoomsInfo();
 										newRoom.setRoomNumber(room.getRoomName());
 										List<BedsInfo> bedsList = new ArrayList<>();
-										Optional<List<Bed>> getBeds = bedrepo.findByroomId(room.getRoomId());
+										Optional<List<Beds>> getBeds = bedrepo.findByroomId(room.getRoomId());
 										if (getBeds.isPresent()) {
 											getBeds.get().forEach(bed -> {
 												BedsInfo newBed = new BedsInfo();
@@ -230,23 +227,23 @@ public class BedController {
 	public ResponseEntity<BuildingInfo> getByBuildingId(@PathVariable Integer id) {
 
 		BuildingInfo info = new BuildingInfo();
-		Optional<Building> getBuilding = buildingRepo.findById(id);
+		Optional<Buildings> getBuilding = buildingRepo.findById(id);
 		if (getBuilding.isPresent()) {
 			info.setBuildingName(getBuilding.get().getBuilding_name());
 			List<FloorsInfo> floorsList = new ArrayList<>();
-			Optional<List<Floor>> getFloors = floorRepo.findByBuildingId(getBuilding.get().getBuilding_id());
+			Optional<List<Floors>> getFloors = floorRepo.findByBuildingId(getBuilding.get().getBuilding_id());
 			if (getFloors.isPresent()) {
 				getFloors.get().forEach(floor -> {
 					FloorsInfo newFloor = new FloorsInfo();
 					newFloor.setFloorName(floor.getFloorName());
 					List<RoomsInfo> roomList = new ArrayList<>();
-					Optional<List<Room>> getRooms = roomRepo.findByFloorId(floor.getFloorId());
+					Optional<List<Rooms>> getRooms = roomRepo.findByFloorId(floor.getFloorId());
 					if (getRooms.isPresent()) {
 						getRooms.get().forEach(room -> {
 							RoomsInfo newRoom = new RoomsInfo();
 							newRoom.setRoomNumber(room.getRoomName());
 							List<BedsInfo> bedsList = new ArrayList<>();
-							Optional<List<Bed>> getBeds = bedrepo.findByroomId(room.getRoomId());
+							Optional<List<Beds>> getBeds = bedrepo.findByroomId(room.getRoomId());
 							if (getBeds.isPresent()) {
 								getBeds.get().forEach(bed -> {
 									BedsInfo newBed = new BedsInfo();
@@ -280,21 +277,21 @@ public class BedController {
 	// GET MAPPING API FOR AVAILABLE BEDS BY BUILDING ID
 
 	@GetMapping(path = "/getAvailableBedsByBuildingId/{id}")
-	public ResponseEntity<java.util.List<Bed>> buildingId(@PathVariable Integer id) {
-		List<Bed> listbed = new ArrayList<>();
-		Optional<Building> getBuilding = buildingRepo.findById(id);
+	public ResponseEntity<java.util.List<Beds>> buildingId(@PathVariable Integer id) {
+		List<Beds> listbed = new ArrayList<>();
+		Optional<Buildings> getBuilding = buildingRepo.findById(id);
 		if (getBuilding.isPresent()) {
 			List<FloorsInfo> floorsList = new ArrayList<>();
-			Optional<List<Floor>> getFloors = floorRepo.findByBuildingId(getBuilding.get().getBuilding_id());
+			Optional<List<Floors>> getFloors = floorRepo.findByBuildingId(getBuilding.get().getBuilding_id());
 			if (getFloors.isPresent()) {
 				getFloors.get().forEach(floor -> {
-					Optional<List<Room>> getRooms = roomRepo.findByFloorId(floor.getFloorId());
+					Optional<List<Rooms>> getRooms = roomRepo.findByFloorId(floor.getFloorId());
 					if (getRooms.isPresent()) {
 						getRooms.get().forEach(room -> {
-							Optional<List<Bed>> getBeds = bedrepo.findByroomIdAndBedStatus(room.getRoomId(), true);
+							Optional<List<Beds>> getBeds = bedrepo.findByroomIdAndBedStatus(room.getRoomId(), true);
 							if (getBeds.isPresent()) {
 								getBeds.get().forEach(bed -> {
-									Bed newBed = new Bed();
+									Beds newBed = new Beds();
 									listbed.add(newBed);
 								});
 							}
@@ -303,27 +300,27 @@ public class BedController {
 				});
 			}
 		}
-		return new ResponseEntity<List<Bed>>(listbed, HttpStatus.OK);
+		return new ResponseEntity<List<Beds>>(listbed, HttpStatus.OK);
 	}
 
 // GET MAPPING API FOR NOT AVAILABLE BEDS BY BUILDING ID
 
 	@GetMapping(path = "/getNotAvailableBedsByBuildingId/{id}")
-	public ResponseEntity<java.util.List<Bed>> getNotAvailableBedsByBuildingId(@PathVariable Integer id) {
-		List<Bed> listbed = new ArrayList<>();
-		Optional<Building> getBuilding = buildingRepo.findById(id);
+	public ResponseEntity<java.util.List<Beds>> getNotAvailableBedsByBuildingId(@PathVariable Integer id) {
+		List<Beds> listbed = new ArrayList<>();
+		Optional<Buildings> getBuilding = buildingRepo.findById(id);
 		if (getBuilding.isPresent()) {
 			List<FloorsInfo> floorsList = new ArrayList<>();
-			Optional<List<Floor>> getFloors = floorRepo.findByBuildingId(getBuilding.get().getBuilding_id());
+			Optional<List<Floors>> getFloors = floorRepo.findByBuildingId(getBuilding.get().getBuilding_id());
 			if (getFloors.isPresent()) {
 				getFloors.get().forEach(floor -> {
-					Optional<List<Room>> getRooms = roomRepo.findByFloorId(floor.getFloorId());
+					Optional<List<Rooms>> getRooms = roomRepo.findByFloorId(floor.getFloorId());
 					if (getRooms.isPresent()) {
 						getRooms.get().forEach(room -> {
-							Optional<List<Bed>> getBeds = bedrepo.findByroomIdAndBedStatus(room.getRoomId(), false);
+							Optional<List<Beds>> getBeds = bedrepo.findByroomIdAndBedStatus(room.getRoomId(), false);
 							if (getBeds.isPresent()) {
 								getBeds.get().forEach(bed -> {
-									Bed newBed = new Bed();
+									Beds newBed = new Beds();
 									newBed.setBedId(bed.getBedId());
 									newBed.setBedId(bed.getBedId());
 									newBed.setBedName(bed.getBedName());
@@ -342,7 +339,7 @@ public class BedController {
 				});
 			}
 		}
-		return new ResponseEntity<List<Bed>>(listbed, HttpStatus.OK);
+		return new ResponseEntity<List<Beds>>(listbed, HttpStatus.OK);
 	}
 
 //    getApi for all buldings available beds
@@ -350,16 +347,16 @@ public class BedController {
 	@GetMapping(path = "/getAvailableBedsByBuildings")
 	public ResponseEntity<List<BuildingModel>> getAvailableBedsByBuildings() {
 		List<BuildingModel> info = new ArrayList<>();
-		List<Building> getBuildings = buildingRepo.findAll();
+		List<Buildings> getBuildings = buildingRepo.findAll();
 		if (!getBuildings.isEmpty()) {
 			getBuildings.forEach(building -> {
 				BuildingModel newBuild = new BuildingModel();
-				Optional<Building> getBuilding = buildingRepo.findById(building.getBuilding_id());
+				Optional<Buildings> getBuilding = buildingRepo.findById(building.getBuilding_id());
 				if (getBuilding.isPresent()) {
 					newBuild.setBuildingId(getBuilding.get().getBuilding_id());
 					newBuild.setBuildingName(getBuilding.get().getBuilding_name());
 					List<BedsInfo> bedsList = new ArrayList<>();
-					Optional<List<Bed>> getBeds = bedrepo
+					Optional<List<Beds>> getBeds = bedrepo
 							.findBybuildingIdAndBedStatus(getBuilding.get().getBuilding_id(), true);
 					if (getBeds.isPresent()) {
 						getBeds.get().forEach(bed -> {
@@ -391,8 +388,8 @@ public class BedController {
 //UPDATE API FOR BED STATUS AND GUEST ID BY BEDID
 
 	@PutMapping("/updateBedStatusBydBedId")
-	public void updateBedStatusByBedId(@RequestBody Bed bed) {
-		Bed getBed = bedrepo.findByBedId(bed.getBedId());
+	public void updateBedStatusByBedId(@RequestBody Beds bed) {
+		Beds getBed = bedrepo.findByBedId(bed.getBedId());
 		getBed.setGuestId(bed.getGuestId());
 		getBed.setBedId(bed.getBedId());
 		getBed.setBedStatus(!getBed.isBedStatus());
@@ -404,17 +401,17 @@ public class BedController {
 	@GetMapping(path = "/getBedSummaryForPieChartByAllBuildings")
 	public ResponseEntity<List<NewBuildModel>> getAvailableBedsByBuilding() {
 		List<NewBuildModel> info = new ArrayList<NewBuildModel>();
-		List<Building> getBuildings = buildingRepo.findAll();
+		List<Buildings> getBuildings = buildingRepo.findAll();
 		if (!getBuildings.isEmpty()) {
 			getBuildings.forEach(building -> {
 				NewBuildModel newBuild = new NewBuildModel();
-				Optional<Building> getBuilding = buildingRepo.findById(building.getBuilding_id());
+				Optional<Buildings> getBuilding = buildingRepo.findById(building.getBuilding_id());
 				if (getBuilding.isPresent()) {
 					newBuild.setBuildingId(getBuilding.get().getBuilding_id());
 					newBuild.setBuildingName(getBuilding.get().getBuilding_name());
-					List<Bed> bedsList = bedrepo.findAllByBuildingId(building.getBuilding_id());
-					List<Bed> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(), false);
-					List<Bed> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(),
+					List<Beds> bedsList = bedrepo.findAllByBuildingId(building.getBuilding_id());
+					List<Beds> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(), false);
+					List<Beds> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(),
 							true);
 					int bedsCount = bedsList.size();
 					int occupiedBedsCount = listbeds.size();
@@ -435,13 +432,13 @@ public class BedController {
 	public ResponseEntity<List<NewBuildModel>> getAvailableBedsByBuildingId(@PathVariable int buildingId) {
 		List<NewBuildModel> info = new ArrayList<>();
 		NewBuildModel newBuild = new NewBuildModel();
-		Optional<Building> getBuilding = buildingRepo.findById(buildingId);
+		Optional<Buildings> getBuilding = buildingRepo.findById(buildingId);
 		if (getBuilding.isPresent()) {
 			newBuild.setBuildingId(getBuilding.get().getBuilding_id());
 			newBuild.setBuildingName(getBuilding.get().getBuilding_name());
-			List<Bed> bedsList = bedrepo.findAllByBuildingId(buildingId);
-			List<Bed> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(buildingId, false);
-			List<Bed> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(buildingId, true);
+			List<Beds> bedsList = bedrepo.findAllByBuildingId(buildingId);
+			List<Beds> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(buildingId, false);
+			List<Beds> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(buildingId, true);
 			int bedsCount = bedsList.size();
 			int occupiedBedsCount = listbeds.size();
 			int totalAvailableBeds = listOfAvailablebeds.size();
@@ -454,8 +451,8 @@ public class BedController {
 	}
 
 	@GetMapping("/getBedByBedId/{bedId}")
-	public Bed getBedByBuildingId(@PathVariable String bedId) {
-		Bed getBed = bedrepo.findByBedId(bedId);
+	public Beds getBedByBuildingId(@PathVariable String bedId) {
+		Beds getBed = bedrepo.findByBedId(bedId);
 		return getBed;
 	}
 
