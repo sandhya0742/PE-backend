@@ -13,8 +13,8 @@ public class Rooms {
 	private int roomId;
 	@Column
 	private String roomName;
-	
-	
+
+
 	@Column
 	private int floorId;
 
@@ -43,7 +43,7 @@ public class Rooms {
 	}
 
 
-	public Rooms(int roomId, String roomName, Beds[] bed) {
+	public Rooms(int roomId, String roomName, Bed[] bed) {
 		super();
 		this.roomId = roomId;
 		this.roomName = roomName;
@@ -53,7 +53,7 @@ public class Rooms {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+
 }
 

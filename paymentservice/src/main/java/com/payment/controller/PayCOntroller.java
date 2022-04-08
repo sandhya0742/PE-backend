@@ -1,18 +1,16 @@
 package com.payment.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.payment.common.PendingPayments;
+import com.payment.common.RecentTransactions;
 import com.payment.repos.PayRepos;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.payment.entity.Payment;
+import com.payment.entity.Payments;
 import com.payment.service.PaymentService;
 
 @RestController
@@ -28,34 +26,34 @@ public class PayCOntroller {
     //http://localhost:8989/payment/addPaymentAtOnBoarding
 //ADDING PAYMENT AT ONBOARDING TIME .
     @PostMapping("/addPaymentAtOnBoarding")
-    public Payment addPayment(@RequestBody Payment payment) {
+    public Payments addPayment(@RequestBody Payments payment) {
         return this.serve.addPayment(payment);
     }
 
     //http://localhost:8989/payment/updatePaymentByPaymentId/{paymentId}
 //UPDATING PAYMENT BASED ON PAYMENT ID.
     @PutMapping("/updatePaymentByPaymentId/{paymentId}")
-    public Payment updatePayment(@RequestBody Payment payment) {
+    public Payments updatePayment(@RequestBody Payments payment) {
         return this.serve.updatePayment(payment);
     }
 
     //	http://localhost:8989/payment/getPaymentDetail/{paymentId}
 //RETRIEVE PAYMENT DETAILS BASED ON PAYMENT ID .
     @GetMapping("/getPaymentDetail/{paymentId}")
-    public Payment getPaymentById(@PathVariable int paymentId) {
+    public Payments getPaymentById(@PathVariable int paymentId) {
         return this.serve.getPaymentById(paymentId);
     }
 
     //http://localhost:8989/payment/getAllPayments
 //RETRIEVE ALL PAYMENTS AS LIST .
     @GetMapping("/getAllPayments")
-    public List<Payment> getPayment() {
+    public List<Payments> getPayment() {
         return this.serve.getPayment();
     }
 
     // GET THE TRANSACTION HISTORY BASED ON GUESTID .
     @GetMapping("/getPaymentByGuestId/{guestId}")
-    public Payment findByGuestId(@PathVariable String guestId) {
+    public Payments findByGuestId(@PathVariable String guestId) {
         return this.serve.getPaymentByGuestId(guestId);
     }
 
@@ -68,12 +66,55 @@ public class PayCOntroller {
 
     //POSTING INFORMATION OF PAYMENT BASED ON GUEST TYPE .
     @PostMapping("/addAfterOnBoard")
-    public Payment addPaymentAfterOnBoar(@RequestBody Payment payment) {
+    public Payments addPaymentAfterOnBoar(@RequestBody Payments payment) {
         return this.serve.addPaymentAfterOnBoard(payment);
     }
 
     @GetMapping("/getTrasactionHistoryByGuestId/{guestId}")
-    public List<Payment> findTransactionsByGuestId(@PathVariable String guestId){
-        return repos.findPaymentByGuestId(guestId);
+    public List<Payments> findTransactionsByGuestId(@PathVariable String guestId) {
+        return repos.findPaymentsByGuestId(guestId);
+    }
+
+    @GetMapping("/getRecentPayments")
+    public List<RecentTransactions> getResentTransactions(@RequestParam String field) {
+        List<RecentTransactions> recent = new ArrayList<>();
+        if (field.equals("date")) {
+            Optional<List<Payments>> pay = repos.findTop30AllByOrderByTransactionDateDesc();
+            if (pay.isPresent()) {
+                pay.get().forEach(payment -> {
+                    RecentTransactions rt = new RecentTransactions();
+                    rt.setAmountPaid(payment.getAmountPaid());
+                    rt.setGuestId(payment.getGuestId());
+                    rt.setPaymentId(payment.getPaymentId());
+                    rt.setPaymentPurpose(payment.getPaymentPurpose());
+                    rt.setTransactionDate(payment.getTransactionDate());
+                    rt.setTransactionId(payment.getTransactionId());
+                    recent.add(rt);
+                });
+            }
+        }
+        return recent;
+    }
+
+    @GetMapping("/pendingPayments")
+    public PendingPayments getPendingPayments() {
+        // TODO Auto-generated method stub
+        //Payment getpayment=repos.findAllGuests();
+        Payments payments = new Payments();
+        //Payment getGuests=repos.findByGuestId(payments.getGuestId());
+        PendingPayments pp = new PendingPayments();
+        //List<Payment> pay=repos.findPaymentByGuestId(payments.getGuestId());
+        if (payments.getDueAmount() > 0) {
+        }
+        List<Payments> pay1 = repos.findAll();
+        int count = pay1.size();
+        pp.setPendingPayments(count);
+        return pp;
+    }
+
+    @GetMapping("/getDueByGuestId/{guestId}")
+    public Payments getDueById(@PathVariable String guestId){
+        System.out.println(repos.findDueAmountByGuestId(guestId));
+        return repos.findDueAmountByGuestId(guestId);
     }
 }

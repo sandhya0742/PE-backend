@@ -1,5 +1,10 @@
 package net.arshaa.rat.entity;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,12 +20,12 @@ public class Floors {
 
 	/*
 	 * @ManyToOne
-	 * 
+	 *
 	 * @JoinColumn(name = "building_id") private Building building;
-	 * 
+	 *
 	 * @OneToMany(mappedBy = "floor") private List<Room> room = new ArrayList<>();
 	 */
-	
+
 
 
 	public int getFloorId() {
@@ -58,6 +63,6 @@ public class Floors {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	}
+
+
+}

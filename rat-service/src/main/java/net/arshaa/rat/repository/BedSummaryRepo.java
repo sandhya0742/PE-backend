@@ -6,12 +6,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-import net.arshaa.rat.entity.Beds;
+import net.arshaa.rat.entity.Bed;
 
 
-public interface BedSummaryRepo extends JpaRepository<Beds, Integer> {
+public interface BedSummaryRepo extends JpaRepository<Bed, Integer> {
 
-    List<Beds> findByBuildingIdAndBedStatus(int building_id, boolean b);
+    List<Bed> findByBuildingIdAndBedStatus(int building_id, boolean b);
 
 
 }

@@ -5,30 +5,30 @@ import java.util.List;
 //import static java.text.NumberFormat.getCurrencyInstance;
 //import javax.persistence.Enumerated;
 
-import com.payment.entity.Payment;
+import com.payment.entity.Payments;
 
 public interface PaymentService {
 
 //1. Fetching  the details of payments for all guests .	
-	public List<Payment> getPayment();
+	public List<Payments> getPayment();
 
 	// 2. Fetching Payment Details By Particular GuestId
-	public Payment getPaymentByGuestId(String guestId);
+	public Payments getPaymentByGuestId(String guestId);
 
 //3.Fetching payments details by paymentId .
-	public Payment getPaymentById(int paymentId);
+	public Payments getPaymentById(int paymentId);
 
 	// 4. Method to Updating data of payment history by manager .
-	public Payment updatePayment(Payment payment);
+	public Payments updatePayment(Payments payment);
 
 	// 5. Method to Call at the time when user is OnBoarding .
-	public Payment addPayment(Payment payment);
+	public Payments addPayment(Payments payment);
 
 	// 6. Getting the dues Of particular Guest based on their id .
 	public double getDueAmountByGuestId(String guestId);
 
 //7.Posting the data of Guest After onBOarding .
-	public Payment addPaymentAfterOnBoard(Payment payment);
+	public Payments addPaymentAfterOnBoard(Payments payment);
 
 	// double getDailyRent() ;
 
