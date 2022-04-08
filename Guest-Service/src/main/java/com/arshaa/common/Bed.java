@@ -9,8 +9,17 @@ public class Bed {
 
     private String bedId;
     private String guestId;
+    private double defaultRent;
 
     public Bed() {
+    }
+
+    public void setDefaultRent(double defaultRent) {
+        this.defaultRent = defaultRent;
+    }
+
+    public double getDefaultRent() {
+        return defaultRent;
     }
 
     public String getBedId() {

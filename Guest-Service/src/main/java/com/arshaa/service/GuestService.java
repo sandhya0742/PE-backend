@@ -35,14 +35,21 @@ public class GuestService implements GuestInterface {
 
     @Override
     public Guest addGuest(Guest guest) {
+        //double initialDefaultrent = 0;
         String bedUri = "http://bedService/bed/updateBedStatusBydBedId";
         String payUri = "http://paymentService/payment/addPaymentAtOnBoarding";
+//        Bed getUniqueBed = template.getForObject("http://bedService/bed/getBedByBedId/" + guest.getBedId(), Bed.class);
+//        if (getUniqueBed.getBedId().equalsIgnoreCase(guest.getBedId())) {
+//            System.out.println(getUniqueBed.getBedId());
+//            guest.setDueAmount(getUniqueBed.getDefaultRent() - guest.getAmountPaid());
+//        }
         java.sql.Date tSqlDate = new java.sql.Date(guest.getTransactionDate().getTime());
         guest.setTransactionDate(tSqlDate);
         java.sql.Date cSqlDate = new java.sql.Date(guest.getCheckInDate().getTime());
         guest.setCheckInDate(cSqlDate);
-        //guest.setDueAmount(guest.getDueAmount() - guest.getAmountPaid());
+//        System.out.println(initialDefaultrent);
         repository.save(guest);
+        System.out.println(guest.getDueAmount());
         Bed bedReq = new Bed();
         Payment payReq = new Payment();
         //bed setting
@@ -57,7 +64,7 @@ public class GuestService implements GuestInterface {
         payReq.setTransactionDate(tSqlDate);
         payReq.setCheckinDate(cSqlDate);
         payReq.setAmountPaid(guest.getAmountPaid());
-       // payReq.setDueAmount(guest.getDueAmount());
+        payReq.setDueAmount(guest.getDueAmount());
         //payReq.setPaymentPurpose(guest.getPaymentPurpose());
         Payment parRes = template.postForObject(payUri, payReq, Payment.class);
         System.out.println(parRes);

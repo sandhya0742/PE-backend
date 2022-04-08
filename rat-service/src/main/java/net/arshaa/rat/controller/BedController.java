@@ -1,8 +1,14 @@
 package net.arshaa.rat.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -10,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import Models.BedSummary;
 import Models.BedsCount;
 import Models.BedsInfo;
 import Models.BuildingInfo;
@@ -17,7 +24,7 @@ import Models.BuildingModel;
 import Models.FloorsInfo;
 import Models.NewBuildModel;
 import Models.RoomsInfo;
-import net.arshaa.rat.entity.Beds;
+import net.arshaa.rat.entity.Bed;
 import net.arshaa.rat.entity.Buildings;
 import net.arshaa.rat.entity.Floors;
 import net.arshaa.rat.entity.Rooms;
@@ -42,6 +49,7 @@ public class BedController {
 	@Autowired
 	private FloorRepository floorRepo;
 
+
 	@Autowired
 	private RoomRepository roomRepo;
 
@@ -61,13 +69,63 @@ public class BedController {
 	public ResponseEntity<String> test() {
 		return new ResponseEntity<>("hello", HttpStatus.OK);
 	}
+
+	/*
+	 * @GetMapping("/getRecentPayments") public List<Buildings>
+	 * getResentTransactions(@RequestBody String field) { return
+	 * buildingRepo.findAll(Sort.by(Direction.DESC,field)); //return pay; }
+	 */
+
+	// Post API to add Building
+
+	@PostMapping(path = "/addBuilding")
+	public ResponseEntity<Buildings> addBuilding(@RequestBody Buildings newBuilding) {
+
+		try {
+			Buildings building = buildingRepo.save(newBuilding);
+
+			return new ResponseEntity("Building Added Successfully", HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity("Something went wrong", HttpStatus.OK);
+
+		}
+	}
+	// Post API to add Floor
+
+	@PostMapping(path = "/addFloor")
+	public ResponseEntity<Floors> addFloor(@RequestBody Floors newFloor) {
+
+		try {
+			Floors floor = floorRepo.save(newFloor);
+
+			return new ResponseEntity("Floor Added Successfully", HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity("Something went wrong", HttpStatus.OK);
+
+		}
+	}
+
+	//Post Api to add Room
+	@PostMapping(path="/addRoom")
+	public ResponseEntity<Rooms> addRoom(@RequestBody Rooms newRoom)
+	{
+		try {
+			Rooms room=roomRepo.save(newRoom);
+			return new ResponseEntity("Room added Successfully",HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity("Something went wrong",HttpStatus.OK);
+
+		}
+	}
+
 // Post API to add Bed by id
 
 	@PostMapping(path = "/addBed")
-	public ResponseEntity<Beds> addBed(@RequestBody Beds newBed) {
+	public ResponseEntity<Bed> addBed(@RequestBody Bed newBed) {
 
 		try {
-			Beds bed = bedrepo.save(newBed);
+			Bed bed = bedrepo.save(newBed);
 
 			return new ResponseEntity("Bed Added Successfully", HttpStatus.OK);
 		} catch (Exception e) {
@@ -76,35 +134,70 @@ public class BedController {
 		}
 	}
 
+
 // APi to update bed by id
 
 	@PutMapping("/updateBedById/{id}")
-	public ResponseEntity<Beds> updateBed(@PathVariable int id, @RequestBody Beds bedDetails) {
+	public ResponseEntity<Bed> updateBed(@PathVariable int id, @RequestBody Bed bedDetails) {
 		try {
-			Beds bed = bedrepo.getById(id);
+			Bed bed = bedrepo.getById(id);
 
 			bed.setAc(bedDetails.isAc());
 			bed.setBedId(bedDetails.getBedId());
 			bed.setBedName(bedDetails.getBedName());
 			bed.setBuildingId(bedDetails.getBuildingId());
 			bed.setBedStatus(bedDetails.isBedStatus());
-			bed.setBuildingName(bedDetails.getBuildingName());
 			bed.setDefaultRent(bedDetails.getDefaultRent());
 			bed.setFloorId(bedDetails.getFloorId());
 			bed.setGuestId(bedDetails.getGuestId());
 			bed.setRoomId(bedDetails.getRoomId());
 			bed.setSecurityDeposit(bedDetails.getSecurityDeposit());
-			Beds updatedBed = bedrepo.save(bed);
+			Bed updatedBed = bedrepo.save(bed);
 			return new ResponseEntity("Bed Updated Successfully", HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity("Something went wrong can't able to update", HttpStatus.ALREADY_REPORTED);
 
 		}
 	}
+
+	//Update api to update building data
+	@PutMapping("updateBuildingById/{id}")
+	public ResponseEntity<Buildings> updateBuilding(@PathVariable int id,@RequestBody Buildings buildingDetils)
+	{
+		try {
+			Buildings building=buildingRepo.getById(id);
+			building.setBuilding_name(buildingDetils.getBuilding_name());
+			building.setManager_name(buildingDetils.getManager_name());
+			building.setPhone_number(buildingDetils.getPhone_number());
+			Buildings updatedBuilding=buildingRepo.save(building);
+			return new ResponseEntity("Building Updated Successfully", HttpStatus.OK);
+
+		}
+		catch (Exception e) {
+			return new ResponseEntity("Something went wrong can't able to update", HttpStatus.ALREADY_REPORTED);
+		}
+
+	}
+
 // Api  to delete bed by id
 
-	@DeleteMapping("/deleteBedByBedId/{id}")
-	public ResponseEntity<String> deleteBed(@PathVariable int id) {
+	@DeleteMapping("/deleteBuilding/{id}")
+	public ResponseEntity<String> deleteBuilding(@PathVariable int id) {
+
+		try {
+			buildingRepo.deleteById(id);
+			return new ResponseEntity<String>("Deleted Successfully", HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>("Something went wrong", HttpStatus.OK);
+
+		}
+
+	}
+
+// Api  to delete bed by id
+
+	@DeleteMapping("/deleteBed/{id}")
+	public ResponseEntity<String> deletebed(@PathVariable int id) {
 
 		try {
 			bedrepo.deleteById(id);
@@ -116,11 +209,11 @@ public class BedController {
 
 	}
 
-// Api to get beddata		
+	// Api to get beddata
 	@GetMapping("/getAllBeds")
-	public ResponseEntity<List<Beds>> getAllBeds() {
+	public ResponseEntity<List<Bed>> getAllBeds() {
 		try {
-			List<Beds> bed = bedrepo.findAll();
+			List<Bed> bed = bedrepo.findAll();
 
 			return new ResponseEntity<>(bed, HttpStatus.OK);
 		} catch (Exception e) {
@@ -129,11 +222,24 @@ public class BedController {
 		}
 	}
 
-// Api to get the count of all beds
+	// Api to get Building data
+	@GetMapping("/getAllBuildings")
+	public ResponseEntity<List<Buildings>> getAllBuildings() {
+		try {
+			List<Buildings> buildings = buildingRepo.findAll();
+
+			return new ResponseEntity<>(buildings, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity("Something went wrong", HttpStatus.OK);
+
+		}
+	}
+
+	// Api to get the count of all beds
 	@GetMapping("/getAllBedsCount")
 	public ResponseEntity<Integer> getAllBedsCount() {
-		List<Beds> bed = bedrepo.findAll();
-		List<Beds> bedsCount=bedrepo.findByBedStatus(true);
+		List<Bed> bed = bedrepo.findAll();
+		List<Bed> bedsCount=bedrepo.findByBedStatus(true);
 		int bedCount = bed.size();
 		int availableBedsCount=bedsCount.size();
 		BedsCount bs=new BedsCount();
@@ -141,19 +247,19 @@ public class BedController {
 		bs.setTotalAvailbleBeds(availableBedsCount);
 		return new ResponseEntity(bs, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/getAvailableBeds")
-	public ResponseEntity<List<Beds>>getAllAvailableBeds(){
+	public ResponseEntity<List<Bed>>getAllAvailableBeds(){
 		try {
-			List<Beds> bedList=bedrepo.findByBedStatus(true);
+			List<Bed> bedList=bedrepo.findByBedStatus(true);
 			//Bed bed=new Bed();
-			
+
 			return new ResponseEntity<>( bedList,HttpStatus.OK);
 		}
 		catch(Exception e)
-		{			
-		return new ResponseEntity( "Something went wrong",HttpStatus.OK);
-		}		
+		{
+			return new ResponseEntity( "Something went wrong",HttpStatus.OK);
+		}
 	}
 
 // GET ALL BUILDINGS
@@ -183,13 +289,12 @@ public class BedController {
 										RoomsInfo newRoom = new RoomsInfo();
 										newRoom.setRoomNumber(room.getRoomName());
 										List<BedsInfo> bedsList = new ArrayList<>();
-										Optional<List<Beds>> getBeds = bedrepo.findByroomId(room.getRoomId());
+										Optional<List<Bed>> getBeds = bedrepo.findByroomId(room.getRoomId());
 										if (getBeds.isPresent()) {
 											getBeds.get().forEach(bed -> {
 												BedsInfo newBed = new BedsInfo();
 												newBed.setBedStatus(bed.isBedStatus());
 												newBed.setBuildingId(bed.getBuildingId());
-												newBed.setBuildingName(bed.getBuildingName());
 												newBed.setFloorId(bed.getFloorId());
 												newBed.setDefaultRent(bed.getDefaultRent());
 												newBed.setRoomId(bed.getRoomId());
@@ -243,12 +348,11 @@ public class BedController {
 							RoomsInfo newRoom = new RoomsInfo();
 							newRoom.setRoomNumber(room.getRoomName());
 							List<BedsInfo> bedsList = new ArrayList<>();
-							Optional<List<Beds>> getBeds = bedrepo.findByroomId(room.getRoomId());
+							Optional<List<Bed>> getBeds = bedrepo.findByroomId(room.getRoomId());
 							if (getBeds.isPresent()) {
 								getBeds.get().forEach(bed -> {
 									BedsInfo newBed = new BedsInfo();
 									newBed.setBuildingId(bed.getBuildingId());
-									newBed.setBuildingName(bed.getBuildingName());
 									newBed.setRoomId(bed.getRoomId());
 									newBed.setFloorId(bed.getFloorId());
 									newBed.setBedId(bed.getBedId());
@@ -277,8 +381,8 @@ public class BedController {
 	// GET MAPPING API FOR AVAILABLE BEDS BY BUILDING ID
 
 	@GetMapping(path = "/getAvailableBedsByBuildingId/{id}")
-	public ResponseEntity<java.util.List<Beds>> buildingId(@PathVariable Integer id) {
-		List<Beds> listbed = new ArrayList<>();
+	public ResponseEntity<java.util.List<Bed>> buildingId(@PathVariable Integer id) {
+		List<Bed> listbed = new ArrayList<>();
 		Optional<Buildings> getBuilding = buildingRepo.findById(id);
 		if (getBuilding.isPresent()) {
 			List<FloorsInfo> floorsList = new ArrayList<>();
@@ -288,10 +392,10 @@ public class BedController {
 					Optional<List<Rooms>> getRooms = roomRepo.findByFloorId(floor.getFloorId());
 					if (getRooms.isPresent()) {
 						getRooms.get().forEach(room -> {
-							Optional<List<Beds>> getBeds = bedrepo.findByroomIdAndBedStatus(room.getRoomId(), true);
+							Optional<List<Bed>> getBeds = bedrepo.findByroomIdAndBedStatus(room.getRoomId(), true);
 							if (getBeds.isPresent()) {
 								getBeds.get().forEach(bed -> {
-									Beds newBed = new Beds();
+									Bed newBed = new Bed();
 									listbed.add(newBed);
 								});
 							}
@@ -300,14 +404,14 @@ public class BedController {
 				});
 			}
 		}
-		return new ResponseEntity<List<Beds>>(listbed, HttpStatus.OK);
+		return new ResponseEntity<List<Bed>>(listbed, HttpStatus.OK);
 	}
 
 // GET MAPPING API FOR NOT AVAILABLE BEDS BY BUILDING ID
 
 	@GetMapping(path = "/getNotAvailableBedsByBuildingId/{id}")
-	public ResponseEntity<java.util.List<Beds>> getNotAvailableBedsByBuildingId(@PathVariable Integer id) {
-		List<Beds> listbed = new ArrayList<>();
+	public ResponseEntity<java.util.List<Bed>> getNotAvailableBedsByBuildingId(@PathVariable Integer id) {
+		List<Bed> listbed = new ArrayList<>();
 		Optional<Buildings> getBuilding = buildingRepo.findById(id);
 		if (getBuilding.isPresent()) {
 			List<FloorsInfo> floorsList = new ArrayList<>();
@@ -317,10 +421,10 @@ public class BedController {
 					Optional<List<Rooms>> getRooms = roomRepo.findByFloorId(floor.getFloorId());
 					if (getRooms.isPresent()) {
 						getRooms.get().forEach(room -> {
-							Optional<List<Beds>> getBeds = bedrepo.findByroomIdAndBedStatus(room.getRoomId(), false);
+							Optional<List<Bed>> getBeds = bedrepo.findByroomIdAndBedStatus(room.getRoomId(), false);
 							if (getBeds.isPresent()) {
 								getBeds.get().forEach(bed -> {
-									Beds newBed = new Beds();
+									Bed newBed = new Bed();
 									newBed.setBedId(bed.getBedId());
 									newBed.setBedId(bed.getBedId());
 									newBed.setBedName(bed.getBedName());
@@ -330,7 +434,6 @@ public class BedController {
 									newBed.setId(bed.getId());
 									newBed.setDefaultRent(bed.getDefaultRent());
 									newBed.setBuildingId(bed.getBuildingId());
-									newBed.setBuildingName(bed.getBuildingName());
 									listbed.add(newBed);
 								});
 							}
@@ -339,7 +442,7 @@ public class BedController {
 				});
 			}
 		}
-		return new ResponseEntity<List<Beds>>(listbed, HttpStatus.OK);
+		return new ResponseEntity<List<Bed>>(listbed, HttpStatus.OK);
 	}
 
 //    getApi for all buldings available beds
@@ -356,7 +459,7 @@ public class BedController {
 					newBuild.setBuildingId(getBuilding.get().getBuilding_id());
 					newBuild.setBuildingName(getBuilding.get().getBuilding_name());
 					List<BedsInfo> bedsList = new ArrayList<>();
-					Optional<List<Beds>> getBeds = bedrepo
+					Optional<List<Bed>> getBeds = bedrepo
 							.findBybuildingIdAndBedStatus(getBuilding.get().getBuilding_id(), true);
 					if (getBeds.isPresent()) {
 						getBeds.get().forEach(bed -> {
@@ -368,11 +471,11 @@ public class BedController {
 							newBed.setRoomId(bed.getRoomId());
 							newBed.setBedNum(bed.getId());
 							newBed.setBuildingId(bed.getBuildingId());
-							newBed.setBuildingName(bed.getBuildingName());
 							newBed.setGuestId(bed.getGuestId());
 							newBed.setAc(bed.isAc());
 							newBed.setDefaultRent(bed.getDefaultRent());
 							newBed.setDueAmount(bed.getSecurityDeposit());
+							newBed.setBuildingName(getBuilding.get().getBuilding_name());
 							bedsList.add(newBed);
 
 						});
@@ -388,8 +491,8 @@ public class BedController {
 //UPDATE API FOR BED STATUS AND GUEST ID BY BEDID
 
 	@PutMapping("/updateBedStatusBydBedId")
-	public void updateBedStatusByBedId(@RequestBody Beds bed) {
-		Beds getBed = bedrepo.findByBedId(bed.getBedId());
+	public void updateBedStatusByBedId(@RequestBody Bed bed) {
+		Bed getBed = bedrepo.findByBedId(bed.getBedId());
 		getBed.setGuestId(bed.getGuestId());
 		getBed.setBedId(bed.getBedId());
 		getBed.setBedStatus(!getBed.isBedStatus());
@@ -409,9 +512,9 @@ public class BedController {
 				if (getBuilding.isPresent()) {
 					newBuild.setBuildingId(getBuilding.get().getBuilding_id());
 					newBuild.setBuildingName(getBuilding.get().getBuilding_name());
-					List<Beds> bedsList = bedrepo.findAllByBuildingId(building.getBuilding_id());
-					List<Beds> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(), false);
-					List<Beds> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(),
+					List<Bed> bedsList = bedrepo.findAllByBuildingId(building.getBuilding_id());
+					List<Bed> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(), false);
+					List<Bed> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(building.getBuilding_id(),
 							true);
 					int bedsCount = bedsList.size();
 					int occupiedBedsCount = listbeds.size();
@@ -436,9 +539,9 @@ public class BedController {
 		if (getBuilding.isPresent()) {
 			newBuild.setBuildingId(getBuilding.get().getBuilding_id());
 			newBuild.setBuildingName(getBuilding.get().getBuilding_name());
-			List<Beds> bedsList = bedrepo.findAllByBuildingId(buildingId);
-			List<Beds> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(buildingId, false);
-			List<Beds> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(buildingId, true);
+			List<Bed> bedsList = bedrepo.findAllByBuildingId(buildingId);
+			List<Bed> listbeds = bedsumRepo.findByBuildingIdAndBedStatus(buildingId, false);
+			List<Bed> listOfAvailablebeds = bedsumRepo.findByBuildingIdAndBedStatus(buildingId, true);
 			int bedsCount = bedsList.size();
 			int occupiedBedsCount = listbeds.size();
 			int totalAvailableBeds = listOfAvailablebeds.size();
@@ -451,8 +554,8 @@ public class BedController {
 	}
 
 	@GetMapping("/getBedByBedId/{bedId}")
-	public Beds getBedByBuildingId(@PathVariable String bedId) {
-		Beds getBed = bedrepo.findByBedId(bedId);
+	public Bed getBedByBuildingId(@PathVariable String bedId) {
+		Bed getBed = bedrepo.findByBedId(bedId);
 		return getBed;
 	}
 

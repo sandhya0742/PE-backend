@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "payments")
-public class Payment {
+public class Payments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -148,7 +148,7 @@ public class Payment {
         this.guestId = guestId;
     }
 
-    public Payment() {
+    public Payments() {
     }
 
     @Override

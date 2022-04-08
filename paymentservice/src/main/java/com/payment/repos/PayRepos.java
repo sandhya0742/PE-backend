@@ -1,14 +1,21 @@
 package com.payment.repos;
 
+import com.payment.entity.Payments;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.payment.entity.Payment;
-
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface PayRepos extends JpaRepository<Payment, Integer> {
-    Payment findByGuestId(String guestId);
-    List<Payment> findPaymentByGuestId(String guestId);
+public interface PayRepos extends JpaRepository<Payments, Integer> {
+    Payments findByGuestId(String guestId);
+    Payments findDueAmountByGuestId(String guestId);
+
+    List<Payments> findPaymentsByGuestId(String guestId);
+
+    //List<Payment> findAllByOrderByTransactionDateDesc(Date transactionDate);
+//List<Payment> findAll(Date transactionDate);
+    Optional<List<Payments>> findTop30AllByOrderByTransactionDateDesc();
 }
+

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import com.payment.entity.Payment;
+import com.payment.entity.Payments;
 import com.payment.repos.PayRepos;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,13 +29,13 @@ public class PaymentImplement implements PaymentService {
 
     //1.Method to fetching the List<>  payment details .
     @Override
-    public List<Payment> getPayment() {
+    public List<Payments> getPayment() {
         return repo.findAll();
     }
 
     //2.Method to fetch payment details of one Particular Guest By PaymentId .
     @Override
-    public Payment getPaymentById(int paymentId) {
+    public Payments getPaymentById(int paymentId) {
         // TODO Auto-generated method stub
 
         return repo.findById(paymentId).orElse(null);
@@ -43,9 +43,9 @@ public class PaymentImplement implements PaymentService {
 
     //3.Method to Updating data of payment history by manager .
     @Override
-    public Payment updatePayment(Payment payment) {
+    public Payments updatePayment(Payments payment) {
         // TODO Auto-generated method stub
-        Payment pay = repo.findById(payment.getPaymentId()).orElse(null);
+        Payments pay = repo.findById(payment.getPaymentId()).orElse(null);
         pay.setAmountPaid(payment.getAmountPaid());
         // pay.setDefaultRent(payment.getDefaultRent());
         pay.setDueAmount(payment.getDueAmount());
@@ -59,9 +59,9 @@ public class PaymentImplement implements PaymentService {
 
     //4.Method to Call at the time when user is OnBoarding .
     @Override
-    public Payment addPayment(Payment payment) {
+    public Payments addPayment(Payments payment) {
         // TODO Auto-generated method stub
-        Payment firstPay = new Payment();
+        Payments firstPay = new Payments();
         try {
             firstPay.setTransactionId(payment.getTransactionId());
             firstPay.setGuestId(payment.getGuestId());
@@ -71,7 +71,7 @@ public class PaymentImplement implements PaymentService {
             if (firstPay.getAmountPaid() > 0) {
                 firstPay.setOnBoard(true);
             }
-            //firstPay.setDueAmount(payment.getDueAmount());
+            firstPay.setDueAmount(payment.getDueAmount());
             firstPay.setCheckinDate(payment.getCheckinDate());
             //firstPay.setPaymentPurpose(payment.getPaymentPurpose());
             return repo.save(firstPay);
@@ -109,8 +109,8 @@ public class PaymentImplement implements PaymentService {
     }
 
 
-    public Payment getPaymentByGuestId(String guestId) {
-        Payment responsePay = repo.findByGuestId(guestId);
+    public Payments getPaymentByGuestId(String guestId) {
+        Payments responsePay = repo.findByGuestId(guestId);
         return responsePay;
     }
 
@@ -123,18 +123,22 @@ public class PaymentImplement implements PaymentService {
 
     //7.Posting the data of Guest After onBOarding .
     @Override
-    public Payment addPaymentAfterOnBoard(Payment payment) {
+    public Payments addPaymentAfterOnBoard(Payments payment) {
         String uri = "http://guestService/guest/updateDueAmount";
         Guest guest = new Guest();
-        Payment secondpay = new Payment();
+        Payments secondpay = new Payments();
         try {
+           Payments due = repo.findDueAmountByGuestId(payment.getGuestId());
             secondpay.setAmountPaid(payment.getAmountPaid());
+//            secondpay.setDueAmount(payment.getDueAmount()-payment.getAmountPaid());
+            secondpay.setDueAmount(due.getDueAmount()- payment.getAmountPaid());
             //secondpay.setDueAmount(payment.getDueAmount());
             secondpay.setTransactionId(payment.getTransactionId());
             secondpay.setPaymentPurpose(payment.getPaymentPurpose());
             secondpay.setGuestId(payment.getGuestId());
             java.sql.Date tSqlDate = new java.sql.Date(payment.getTransactionDate().getTime());
             payment.setTransactionDate(tSqlDate);
+            secondpay.setTransactionDate(payment.getTransactionDate());
             repo.save(secondpay);
             guest.setId(secondpay.getGuestId());
             guest.setDueAmount(secondpay.getDueAmount());
