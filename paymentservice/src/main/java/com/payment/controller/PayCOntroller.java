@@ -1,9 +1,12 @@
 package com.payment.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+import com.payment.common.DuePieChart;
 import com.payment.common.PendingPayments;
 import com.payment.common.RecentTransactions;
 import com.payment.repos.PayRepos;
@@ -14,6 +17,7 @@ import com.payment.entity.Payments;
 import com.payment.service.PaymentService;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/payment")
 public class PayCOntroller {
 
@@ -85,7 +89,8 @@ public class PayCOntroller {
                     RecentTransactions rt = new RecentTransactions();
                     rt.setAmountPaid(payment.getAmountPaid());
                     rt.setGuestId(payment.getGuestId());
-                    rt.setPaymentId(payment.getPaymentId());
+                    // rt.setPaymentId(payment.getPaymentId());
+                    rt.setId(payment.getPaymentId());
                     rt.setPaymentPurpose(payment.getPaymentPurpose());
                     rt.setTransactionDate(payment.getTransactionDate());
                     rt.setTransactionId(payment.getTransactionId());
@@ -112,9 +117,39 @@ public class PayCOntroller {
         return pp;
     }
 
-    @GetMapping("/getDueByGuestId/{guestId}")
-    public Payments getDueById(@PathVariable String guestId){
-        System.out.println(repos.findDueAmountByGuestId(guestId));
-        return repos.findDueAmountByGuestId(guestId);
+    //API CALL FOR FETCHING OVERALL DUE AMOUNT
+
+    @GetMapping("/fetchingOverAllDueAmount")
+    public DuePieChart findTotalDue() {
+        double pay = repos.getTotalDue();
+        DuePieChart ddc = new DuePieChart();
+        ddc.setOverAllDue(pay);
+        return ddc ;
+
     }
+
+    //API CALL FOR FETCHING OVERALL DUE AMOUNT(ONLY COUNT)
+    @GetMapping("/pendingPaymentCount")
+    public PendingPayments getCount() {
+        int pays = repos.getCount();
+        PendingPayments ppt = new PendingPayments();
+        ppt.setPendingPayments(pays);
+        return ppt;
+    }
+//    @GetMapping("/getDueByGuestId/{guestId}")
+//    public double getDueById(@PathVariable String guestId) {
+//        return repos.findDueAmountByGuestId(guestId);
+//    }
+
+//    @GetMapping("/getLatestDueAmountByRecentDate/{guestId}")
+//    public Payments getLatestDueAmountByRecentDate(@RequestParam String guestId){
+//        return repos.findTop1ByTransactionDateAndGuestId(guestId);
+//    }
+
+//    @GetMapping("/getLastDueAmount/{guestId}")
+//    public void getLastDueAmount(@PathVariable String guestId){
+//       List<Payments> allPayments =  repos.findPaymentsByGuestId(guestId);
+//        System.out.println(allPayments);
+//       Date max  = (Date) allPayments.stream().map(Payments::getTransactionDate).max(Date::compareTo).get();
+//    }
 }

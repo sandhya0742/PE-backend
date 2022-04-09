@@ -2,7 +2,7 @@ package com.payment.common;
 
 public class PendingPayments {
     private int pendingPayments;
-    private double overallDue;
+    //private double overallDue;
 
     public int getPendingPayments() {
         return pendingPayments;
@@ -13,18 +13,18 @@ public class PendingPayments {
     }
 
 
-    public double getOverallDue() {
-        return overallDue;
-    }
+//    public double getOverallDue() {
+//        return overallDue;
+//    }
+//
+//    public void setOverallDue(double overallDue) {
+//        this.overallDue = overallDue;
+//    }
 
-    public void setOverallDue(double overallDue) {
-        this.overallDue = overallDue;
-    }
-
-    public PendingPayments(int pendingPayments, double overallDue) {
+    public PendingPayments(int pendingPayments) {
         super();
         this.pendingPayments = pendingPayments;
-        this.overallDue = overallDue;
+        //this.overallDue = overallDue;
     }
 
     public PendingPayments() {

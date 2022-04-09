@@ -3,17 +3,17 @@ package com.payment.common;
 import java.util.Date;
 
 public class RecentTransactions {
-    private int paymentId;
+    private int id;
     private double amountPaid;
     private String transactionId;
     private Date transactionDate = new Date(System.currentTimeMillis());
     private String paymentPurpose;
     private String guestId;
 
-    public RecentTransactions(int paymentId, double amountPaid, String transactionId, Date transactionDate,
+    public RecentTransactions(int id, double amountPaid, String transactionId, Date transactionDate,
                               String paymentPurpose, String guestId) {
         super();
-        this.paymentId = paymentId;
+        this.id = id;
         this.amountPaid = amountPaid;
         this.transactionId = transactionId;
         this.transactionDate = transactionDate;
@@ -22,13 +22,13 @@ public class RecentTransactions {
     }
 
 
-    public int getPaymentId() {
-        return paymentId;
+    public int getId() {
+        return id;
     }
 
 
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
+    public void setId(int id) {
+        this.id = id;
     }
 
 
