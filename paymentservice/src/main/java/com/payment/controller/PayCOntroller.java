@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+import com.payment.common.DuePieChart;
 import com.payment.common.PendingPayments;
 import com.payment.common.RecentTransactions;
 import com.payment.repos.PayRepos;
@@ -116,6 +117,25 @@ public class PayCOntroller {
         return pp;
     }
 
+    //API CALL FOR FETCHING OVERALL DUE AMOUNT
+
+    @GetMapping("/fetchingOverAllDueAmount")
+    public DuePieChart findTotalDue() {
+        double pay = repos.getTotalDue();
+        DuePieChart ddc = new DuePieChart();
+        ddc.setOverAllDue(pay);
+        return ddc ;
+
+    }
+
+    //API CALL FOR FETCHING OVERALL DUE AMOUNT(ONLY COUNT)
+    @GetMapping("/pendingPaymentCount")
+    public PendingPayments getCount() {
+        int pays = repos.getCount();
+        PendingPayments ppt = new PendingPayments();
+        ppt.setPendingPayments(pays);
+        return ppt;
+    }
 //    @GetMapping("/getDueByGuestId/{guestId}")
 //    public double getDueById(@PathVariable String guestId) {
 //        return repos.findDueAmountByGuestId(guestId);
