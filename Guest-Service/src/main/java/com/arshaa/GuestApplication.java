@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
-@EnableScheduling
+//@EnableScheduling
 @EnableEurekaClient
 public class GuestApplication extends SpringBootServletInitializer {
 
@@ -43,12 +43,13 @@ public class GuestApplication extends SpringBootServletInitializer {
     @Autowired
     private GuestRepository repo;
 
-    @Scheduled(cron = "*/10 * * * * *")
-    void addDue() {
-        ResponseEntity<Bed[]> responseEntity = restTemplate().getForEntity("http://bedService/bed/getAllBeds", Bed[].class);
-        Bed[] array = responseEntity.getBody();
-        System.out.println(Arrays.stream(array).map(Bed::getGuestId).collect(Collectors.toList()));
-
-        System.out.println("hi");
-    }
+//    @Scheduled(cron = "*/10 * * * * *")
+//    void addDue() {
+//        ResponseEntity<Bed[]> responseEntity = restTemplate().getForEntity("http://bedService/bed/getAllBeds", Bed[].class);
+//        Bed[] array = responseEntity.getBody();
+//        List<String> ids = Arrays.stream(array).map(Bed::getGuestId).collect(Collectors.toList());
+//        for (String id : ids ){
+//            System.out.println(id);
+//        }
+//    }
 }

@@ -2,6 +2,7 @@ package com.payment.repos;
 
 import com.payment.entity.Payments;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.Optional;
 public interface PayRepos extends JpaRepository<Payments, Integer> {
     Payments findByGuestId(String guestId);
     Payments findDueAmountByGuestId(String guestId);
+
+    //@Query()
 
     List<Payments> findPaymentsByGuestId(String guestId);
 
